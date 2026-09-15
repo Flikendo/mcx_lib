@@ -2,6 +2,7 @@
 * Configuration settings for the client.
 */
 #pragma once
+#include <string>
 
 namespace mcx {
     class Config {
