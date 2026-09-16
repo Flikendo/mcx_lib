@@ -7,49 +7,13 @@
 /**
  * @file config.hpp
  * @brief Configuration model for the MCX client.
- *
+ * 
  * Config stores the settings required by the client to communicate with authorization services, SIP/IMS infrastructure,
- * and MCX services. These settings may include identities, service URLs, transport options, security policies, media capabilities,
- * and runtime limits.
- *
- * Config only stores and loads settings. It does not perform authorization, SIP registration, or network communication; Client and
- * its internal services use the configured values to perform those operations.
+ * and MCX services. These settings may include identities, service URLs, transport options, security policies, media 
+ * capabilities, and runtime limits.
  */
 namespace mcx {
-    /**
-     * Provides configuration for an MCX client instance.
-     *
-     * A Client receives a Config object when it is constructed. Configuration values are kept separate from the protocol
-     * components so that the same client API can be used with different MCX server profiles.
-     */
     struct Config {
-        /**
-         * Constructor for the Config class. Initializes configuration settings with default values.
-         */
-        Config();
-
-        /**
-         * Destructor for the Config class. Cleans up any resources used by the configuration settings.
-         */
-        ~Config();
-
-        /**
-         * Load configuration settings from a file or other source. This method allows the client to customize its
-         * behavior based on external configuration.
-         */
-        bool load(const std::string& filename);
-
-        /**
-         * Save configuration settings to a file or other destination. This method allows the client to persist its
-         * configuration for future use.
-         */
-        bool save(const std::string& filename);            
-    };
-
-    /**
-     * Provides configuration for an MCX client instance that includes SIP/IMS settings.
-     */
-    struct Mcx : public Config {
         /**
          * The MCX ID is a unique identifier for the MCX client instance. It is used to authenticate the client with the MCX
          * server and to manage its session.
