@@ -14,6 +14,11 @@
  */
 namespace mcx {
     struct Config {
+         Config(std::string id, std::string clientId, std::string accessToken, std::string refreshToken, std::string clientSecret,
+            std::int64_t expireTimestamp, std::string scope);
+
+         ~Config() = default;
+
         /**
          * The MCX ID is a unique identifier for the MCX client instance. It is used to authenticate the client with the MCX
          * server and to manage its session.
@@ -53,7 +58,7 @@ namespace mcx {
          * new access token using the refresh token before the current token expires to ensure uninterrupted access to MCX 
          * services.
          */ 
-        int expireTimestamp;
+        std::int64_t expireTimestamp = 0;
 
         /**
          * The scope defines the permissions and access levels granted to the MCX client. It specifies the resources and actions
