@@ -42,7 +42,7 @@ namespace helper_tool {
         while(getline(file, line)) {
             if(line.length() > 0) {
                 std::smatch match;
-                logger.log(config_tool::LogLevel::INFO, "Processing line: " + line);
+                logger.log(helper_tool::LogLevel::INFO, "Processing line: " + line);
                 if(std::regex_match(line, match, ini_section)) { 
                     std::string section = match[1]; // Extract section name e.g. [section] -> section
                     iniData[section] = std::map<std::string, std::string>(); // Create a new section in the map
@@ -52,7 +52,7 @@ namespace helper_tool {
                     iniData.rbegin()->second[key] = value; // Add key-value pair to the last section in the map
                 }
             } else {
-                logger.log(config_tool::LogLevel::WARNING, "Empty line found in INI file: " + filePath);
+                logger.log(LogLevel::WARNING, "Empty line found in INI file: " + filePath);
             }
         }
 
