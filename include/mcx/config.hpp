@@ -21,13 +21,13 @@ namespace mcx {
 
         /**
          * The MCX ID is a unique identifier for the MCX client instance. It is used to authenticate the client with the MCX
-         * server and to manage its session.
+         * server and to manage its session. E.G. "sip:70501@javlaxy.com"
          */
         std::string id;
 
         /**
          * The client ID is a unique identifier for the MCX client instance. It is used to authenticate the client with the MCX
-         * server and to manage its session.
+         * server and to manage its session. E.G. "urn:gsma:imei:10115412-000048-0"
          */
         std::string clientId;
 
