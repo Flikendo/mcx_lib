@@ -11,7 +11,26 @@
  * and runtime limits.
  */
 namespace sip {
+    /**
+     * Enumeration representing the transport protocols supported by the SIP client.
+     */
+    enum Protocol {
+        UDP,
+        TCP,
+        TLS
+    };
+
     struct Config {
+        /**
+         * Constructor for the Config class. Initializes configuration settings with default values.
+         */
+        Config();
+
+        /**
+         * Destructor for the Config class. Cleans up any resources used by the configuration settings.
+         */
+        ~Config();
+        
         /**
          * The IMPI (IP Multimedia Private Identity) is a unique identifier used in IMS (IP Multimedia Subsystem) networks
          * to identify a user. It is typically used for authentication and authorization purposes.
@@ -34,15 +53,5 @@ namespace sip {
          * The transport protocol used for communication with the SIP/IMS infrastructure. This may include UDP, TCP, or TLS.
          */
         Protocol transportProtocol;
-    };
-
-    /**
-     * Enumeration representing the transport protocols supported by the SIP client. These protocols define how data is
-     * transmitted over the network.   
-     */
-    enum Protocol {
-        UDP,
-        TCP,
-        TLS
     };
 }

@@ -5,14 +5,13 @@
 /*
  * The Client class is responsible for managing the lifecycle of the client application. It provides methods to start and stop the client, ensuring that resources are properly initialized and cleaned up.
  */
-
 namespace mcx {
     class Client {
         public:
             /*
             * Constructor for the Client class. Initializes the client with the provided configuration and prepares it for use.
             */
-            Client(mcx::Config config);
+            Client(Config config);
             
             /**
             * Destructor for the Client class. Cleans up resources and ensures proper shutdown.
