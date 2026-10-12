@@ -120,6 +120,14 @@ namespace idms {
              */
             std::string toString() const override;
 
+        protected:
+            /**
+             * Populates the configuration settings from the provided INI data.
+             * @param iniData The nested map containing the INI data.
+             * @param sectionName The name of the section in the INI data to read.
+             */
+            void populateFromIniData(const helper_tool::DefHelper::ConfigMap& iniData, const std::string& sectionName) override;
+
         private:
             /**
              * MCX IP server address. This is the IP address of the MCX server that the client will communicate with for media control and signaling.

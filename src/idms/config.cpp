@@ -1,3 +1,4 @@
+#include <ini_helper.hpp>
 #include <idms/config.hpp>
 
 namespace idms {
@@ -63,6 +64,17 @@ namespace idms {
 
     std::string Config::getIdmsRedirectUri() const {
         return idmsRedirectUri;
+    }
+
+    void Config::populateFromIniData(const helper_tool::DefHelper::ConfigMap& iniData, const std::string& sectionName) {
+        setOutboundProxyAddress(helper_tool::IniHelper::getStringValue(iniData, sectionName, "outboundProxyAddress"));
+        setUsernameForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_usernameForAuth"));
+        setPasswordForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_passwordForAuth"));
+        setIdmsIssuer(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_issuer"));
+        setIdmsAuthorizationEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_authorizationEndpoint"));
+        setIdmsTokenEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_tokenEndpoint"));
+        setIdmsRefreshTokenEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_refreshTokenEndpoint"));
+        setIdmsRedirectUri(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_redirectUri"));
     }
 
     std::string Config::toString() const {

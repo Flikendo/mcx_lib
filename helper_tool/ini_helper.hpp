@@ -5,6 +5,8 @@
 #include <sstream>
 #include <string>
 #include <def_helper.hpp>
+#include <cstdint>
+#include <type_traits>
 
 /**
  * @file ini_helper.hpp
@@ -36,7 +38,10 @@ namespace helper_tool {
          * @return The value associated with the key, converted to type T. If the key is not found or conversion fails, it returns
          * a default-constructed T.
          */
-        template <typename T> static T getValue(const DefHelper::ConfigMap& iniData, const std::string& section, const std::string& key);
+        template <typename T> static T getValue(const DefHelper::ConfigMap& iniData, const std::string& section, 
+            const std::string& key);
+
+            
 
     private:
         /**
@@ -90,7 +95,8 @@ namespace helper_tool {
         return iniData;
     }
 
-    inline std::string IniHelper::getStringValue(const DefHelper::ConfigMap& iniData, const std::string& section, const std::string& key) {
+    inline std::string IniHelper::getStringValue(const DefHelper::ConfigMap& iniData, const std::string& section,
+         const std::string& key) {
         if(iniData.find(section) != iniData.end()) {
             const auto& sectionData = iniData.at(section);
 
@@ -102,7 +108,8 @@ namespace helper_tool {
         return "";
     }
 
-    template <typename T> T IniHelper::getValue(const DefHelper::ConfigMap& iniData, const std::string& section, const std::string& key) {
+    template <typename T> T IniHelper::getValue(const DefHelper::ConfigMap& iniData, const std::string& section,
+         const std::string& key) {
         if(iniData.find(section) != iniData.end()) {
             const std::string& raw = iniData.at(section).at(key); 
                 
@@ -110,8 +117,11 @@ namespace helper_tool {
                 return raw;
             } else if constexpr (std::is_same_v<T, int>) {
                 return std::stoi(raw);
+            } else if constexpr (std::is_same_v<T, std::int64_t>) {
+                return std::stoll(raw);
             } else {
-                static_assert(std::is_same_v<T, std::string> || std::is_same_v<T, int>, "getValue supports only std::string and int");
+                static_assert(std::is_same_v<T, std::string> || std::is_same_v<T, int> || std::is_same_v<T, std::int64_t>, 
+                    "getValue supports only std::string, int, and std::int64_t");
             }
         }
     }
