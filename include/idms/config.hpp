@@ -126,7 +126,7 @@ namespace idms {
              * @param iniData The nested map containing the INI data.
              * @param sectionName The name of the section in the INI data to read.
              */
-            void populateFromIniData(const helper_tool::DefHelper::ConfigMap& iniData, const std::string& sectionName) override;
+            void populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) override;
 
         private:
             /**

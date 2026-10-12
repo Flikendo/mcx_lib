@@ -13,19 +13,17 @@ int main() {
         return 1;
     }
 
-    // IDMS section validation
-    idms::Config config;
-    config.populateFromIniFile("config.ini", "IDENTITY");
+    // IDENTITY section validation
+    idms::Config idmsConfig;
+    idmsConfig.populateFromIniFile("config.ini", "IDENTITY");
 
-    // SIP section validation
     sip::Config sipConfig;
-    sipConfig.populateFromIniFile("config.ini", "SIP");
+    sipConfig.populateFromIniFile("config.ini", "IDENTITY");
 
-    // MCX section validation
     mcx::Config mcxConfig;
-    mcxConfig.populateFromIniFile("config.ini", "MCX");
+    mcxConfig.populateFromIniFile("config.ini", "IDENTITY");
 
-    std::cout << "config.ini parsing and config population passed\n";
-    std::cout << "Config values:\n" << config.toString() << std::endl;
+    std::cout << idmsConfig.toString() << sipConfig.toString() << mcxConfig.toString() << std::endl;
+
     return 0;
 }

@@ -4,16 +4,18 @@
 #include <map>
 #include <sstream>
 #include <string>
-#include <def_helper.hpp>
 #include <cstdint>
+#include <stdexcept>
 #include <type_traits>
+#include <logger_helper.hpp>
+#include <def_helper.hpp>
 
 /**
  * @file ini_helper.hpp
  * Helper class for reading INI files and retrieving configuration values.
  */
 namespace helper_tool {
-    class IniHelper {
+class IniHelper {
     public:
         /** Reads an INI file and returns its contents as a nested map. 
          * @param filePath The path to the INI file.
@@ -35,13 +37,12 @@ namespace helper_tool {
          * @param iniData The nested map containing the INI data.
          * @param section The section name.
          * @param key The key within the section.
-         * @return The value associated with the key, converted to type T. If the key is not found or conversion fails, it returns
-         * a default-constructed T.
+         * @return The value associated with the key, converted to type T.
+         * @throws std::out_of_range If the section or key is not found.
+         * @throws std::invalid_argument or std::out_of_range If conversion to T fails.
          */
         template <typename T> static T getValue(const DefHelper::ConfigMap& iniData, const std::string& section, 
             const std::string& key);
-
-            
 
     private:
         /**
@@ -49,6 +50,13 @@ namespace helper_tool {
          * @param value The string to trim.
          */
         static std::string trim(const std::string& value);
+
+    private:
+        /**
+         * Logger instance for logging messages related to INI file processing.
+         * This can be used to log errors, warnings, or informational messages during INI file reading and value retrieval.
+         */
+        inline static Logger logger;
     };
 
     inline std::string IniHelper::trim(const std::string& value) {
@@ -109,20 +117,30 @@ namespace helper_tool {
     }
 
     template <typename T> T IniHelper::getValue(const DefHelper::ConfigMap& iniData, const std::string& section,
-         const std::string& key) {
-        if(iniData.find(section) != iniData.end()) {
-            const std::string& raw = iniData.at(section).at(key); 
-                
-            if constexpr (std::is_same_v<T, std::string>) {
-                return raw;
-            } else if constexpr (std::is_same_v<T, int>) {
-                return std::stoi(raw);
-            } else if constexpr (std::is_same_v<T, std::int64_t>) {
-                return std::stoll(raw);
-            } else {
-                static_assert(std::is_same_v<T, std::string> || std::is_same_v<T, int> || std::is_same_v<T, std::int64_t>, 
-                    "getValue supports only std::string, int, and std::int64_t");
-            }
+        const std::string& key) {
+        const auto sectionIt = iniData.find(section);
+        if (sectionIt == iniData.end()) {
+            logger.log(LogLevel::ERROR, "INI section not found: " + section);
+            throw std::out_of_range("INI section not found: " + section);
         }
+
+        const auto valueIt = sectionIt->second.find(key);
+        if (valueIt == sectionIt->second.end()) {
+            logger.log(LogLevel::ERROR, "INI key not found: " + section + "." + key);
+            throw std::out_of_range("INI key not found: " + section + "." + key);
+        }
+
+        const std::string& raw = valueIt->second;
+        if constexpr (std::is_same_v<T, std::string>) {
+            return raw;
+        } else if constexpr (std::is_same_v<T, int>) {
+            return std::stoi(raw);
+        } else if constexpr (std::is_same_v<T, std::int64_t>) {
+            return std::stoll(raw);
+        } else {
+            static_assert(std::is_same_v<T, std::string> || std::is_same_v<T, int> ||
+                std::is_same_v<T, std::int64_t>,
+                "getValue supports only std::string, int, and std::int64_t");
+        }       
     }
 }

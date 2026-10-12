@@ -29,11 +29,6 @@ namespace sip {
             Config() = default;
 
             /**
-             * Destructor for the Config class. Cleans up any resources used by the configuration settings.
-             */
-            ~Config();
-
-            /**
              * Sets the IMPI (IP Multimedia Private Identity) username.
              * @param username The IMPI username as a string.
              */
@@ -93,7 +88,7 @@ namespace sip {
              * @param iniData The nested map containing the INI data.
              * @param sectionName The name of the section in the INI data to read.
              */
-            void populateFromIniData(const helper_tool::DefHelper::ConfigMap& iniData, const std::string& sectionName) override;
+            void populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) override;
         
         public:
         /**

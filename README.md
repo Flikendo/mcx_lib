@@ -28,7 +28,7 @@ ctest --test-dir .\build\project-mingw -V
 You can also run the INI test executable directly to see its output:
 
 ```powershell
-.\build\project-mingw\mcx_test_ini_config_test.exe
+.\build\project-mingw\mcx_test_ini_config_test.exe config.ini
 ```
 
 ## Extending the CMake Project

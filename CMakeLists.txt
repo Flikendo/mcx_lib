@@ -13,7 +13,9 @@ add_library(mcx_lib ${MCX_LIB_SOURCES})
 # Put public headers under include/ and include them as <module/header.hpp>.
 # Add dependency include directories here if the library needs external headers.
 target_include_directories(mcx_lib
-    PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
+        "${CMAKE_CURRENT_SOURCE_DIR}/helper_tool"
 )
 
 # Change this when adopting a newer C++ standard.

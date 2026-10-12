@@ -1,4 +1,3 @@
-#include <ini_helper.hpp>
 #include <idms/config.hpp>
 
 namespace idms {
@@ -66,15 +65,23 @@ namespace idms {
         return idmsRedirectUri;
     }
 
-    void Config::populateFromIniData(const helper_tool::DefHelper::ConfigMap& iniData, const std::string& sectionName) {
+    void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
         setOutboundProxyAddress(helper_tool::IniHelper::getStringValue(iniData, sectionName, "outboundProxyAddress"));
+        logger.log(LogLevel::INFO, "Outbound Proxy Address: " + getOutboundProxyAddress());
         setUsernameForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_usernameForAuth"));
+        logger.log(LogLevel::INFO, "Username for Auth: " + getUsernameForAuth());
         setPasswordForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_passwordForAuth"));
+        logger.log(LogLevel::INFO, "Password for Auth: " + getPasswordForAuth());
         setIdmsIssuer(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_issuer"));
+        logger.log(LogLevel::INFO, "IDMS Issuer: " + getIdmsIssuer());
         setIdmsAuthorizationEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_authorizationEndpoint"));
+        logger.log(LogLevel::INFO, "IDMS Authorization Endpoint: " + getIdmsAuthorizationEndpoint());
         setIdmsTokenEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_tokenEndpoint"));
+        logger.log(LogLevel::INFO, "IDMS Token Endpoint: " + getIdmsTokenEndpoint());
         setIdmsRefreshTokenEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_refreshTokenEndpoint"));
+        logger.log(LogLevel::INFO, "IDMS Refresh Token Endpoint: " + getIdmsRefreshTokenEndpoint());
         setIdmsRedirectUri(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_redirectUri"));
+        logger.log(LogLevel::INFO, "IDMS Redirect URI: " + getIdmsRedirectUri());
     }
 
     std::string Config::toString() const {

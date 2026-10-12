@@ -57,14 +57,21 @@ namespace mcx {
         return this->scope;
     }
 
-    void Config::populateFromIniData(const helper_tool::DefHelper::ConfigMap& iniData, const std::string& sectionName) {
+    void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
         setId(helper_tool::IniHelper::getStringValue(iniData, sectionName, "mcx_id"));
-        setClientId(helper_tool::IniHelper::getStringValue(iniData, sectionName, "mcx_clientId"));
-        setAccessToken(helper_tool::IniHelper::getStringValue(iniData, sectionName, "mcx_accessToken"));
-        setRefreshToken(helper_tool::IniHelper::getStringValue(iniData, sectionName, "mcx_refreshToken"));
-        setClientSecret(helper_tool::IniHelper::getStringValue(iniData, sectionName, "mcx_clientSecret"));
-        setExpireTimestamp(helper_tool::IniHelper::getValue<std::int64_t>(iniData, sectionName, "mcx_expireTimestamp"));
-        setScope(helper_tool::IniHelper::getStringValue(iniData, sectionName, "mcx_scope"));
+        logger.log(LogLevel::INFO, "MCX ID: " + getId());
+        setClientId(helper_tool::IniHelper::getStringValue(iniData, sectionName, "mcptt_clientId"));
+        logger.log(LogLevel::INFO, "MCX Client ID: " + getClientId());
+        setAccessToken(helper_tool::IniHelper::getStringValue(iniData, sectionName, "mcptt_accessToken"));
+        logger.log(LogLevel::INFO, "MCX Access Token: " + getAccessToken());
+        setRefreshToken(helper_tool::IniHelper::getStringValue(iniData, sectionName, "mcptt_refreshToken"));
+        logger.log(LogLevel::INFO, "MCX Refresh Token: " + getRefreshToken());
+        setClientSecret(helper_tool::IniHelper::getStringValue(iniData, sectionName, "mcptt_clientSecret"));
+        logger.log(LogLevel::INFO, "MCX Client Secret: " + getClientSecret());
+        setExpireTimestamp(helper_tool::IniHelper::getValue<std::int64_t>(iniData, sectionName, "mcptt_expireTimestamp"));
+        logger.log(LogLevel::INFO, "MCX Expire Timestamp: " + std::to_string(getExpireTimestamp()));
+        setScope(helper_tool::IniHelper::getStringValue(iniData, sectionName, "mcptt_scope"));
+        logger.log(LogLevel::INFO, "MCX Scope: " + getScope());
     }
 
     std::string Config::toString() const {
