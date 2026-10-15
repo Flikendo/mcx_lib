@@ -25,11 +25,16 @@ To see output from passing tests, add `-V`:
 ctest --test-dir .\build\project-mingw -V
 ```
 
-You can also run the INI test executable directly to see its output:
+The default minimum log level is `INFO`. To include debug messages when
+running the INI test directly, pass `--log-level DEBUG`:
 
 ```powershell
-.\build\project-mingw\mcx_test_ini_config_test.exe config.ini
+.\build\project-mingw\mcx_test_ini_config_test.exe --log-level DEBUG
 ```
+
+Accepted levels are `DEBUG`, `INFO`, `WARNING`, `ERROR`, and `CRITICAL`.
+CTest runs the registered test with the default `INFO` level; use the
+executable command above to choose a level for an individual run.
 
 ## Extending the CMake Project
 

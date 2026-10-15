@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <common/iconfig.hpp>
+#include <common/configuration/iconfig.hpp>
 
 /**
  * @file config.hpp

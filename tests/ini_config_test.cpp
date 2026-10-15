@@ -2,12 +2,31 @@
 #include <mcx/config.hpp>
 #include <sip/config.hpp>
 #include <ini_helper.hpp>
+#include <logger_helper.hpp>
 
 #include <iostream>
 #include <string>
 
-int main() {
-    const auto iniData = helper_tool::IniHelper::read("config.ini");
+constexpr auto INI_FILE_PATH = "config.ini";
+
+int main(int argc, char* argv[]) {
+    try {
+        for (int i = 1; i < argc; ++i) {
+            const std::string argument = argv[i];
+            if (argument != "--log-level" || i + 1 >= argc) {
+                std::cerr << "Usage: " << argv[0]
+                          << " [--log-level DEBUG|INFO|WARNING|ERROR|CRITICAL]\n";
+
+                return 2;
+            }
+            Logger::setMinimumLogLevel(Logger::parseLogLevel(argv[++i]));
+        }
+    } catch (const std::invalid_argument& error) {
+        std::cerr << error.what() << '\n';
+        return 2;
+    }
+
+    const auto iniData = helper_tool::IniHelper::read(INI_FILE_PATH);
     if (iniData.empty()) {
         std::cerr << "Failed to read INI file or it was empty\n";
         return 1;
@@ -15,13 +34,13 @@ int main() {
 
     // IDENTITY section validation
     idms::Config idmsConfig;
-    idmsConfig.populateFromIniFile("config.ini", "IDENTITY");
+    idmsConfig.populateFromIniFile(INI_FILE_PATH, "IDENTITY");
 
     sip::Config sipConfig;
-    sipConfig.populateFromIniFile("config.ini", "IDENTITY");
+    sipConfig.populateFromIniFile(INI_FILE_PATH, "IDENTITY");
 
     mcx::Config mcxConfig;
-    mcxConfig.populateFromIniFile("config.ini", "IDENTITY");
+    mcxConfig.populateFromIniFile(INI_FILE_PATH, "IDENTITY");
 
     std::cout << idmsConfig.toString() << sipConfig.toString() << mcxConfig.toString() << std::endl;
 

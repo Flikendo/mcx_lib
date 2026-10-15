@@ -2,7 +2,7 @@
 
 #include <string>
 #include <map>
-#include <common/iconfig.hpp>
+#include <common/configuration/iconfig.hpp>
 
 /**
  * @file config.hpp

@@ -1,4 +1,5 @@
 #include <idms/config.hpp>
+#include <common/configuration/config_constants.hpp>
 
 namespace idms {
     void Config::setOutboundProxyAddress(const std::string& outboundProxyAddress) {
@@ -66,29 +67,29 @@ namespace idms {
     }
 
     void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
-        setOutboundProxyAddress(helper_tool::IniHelper::getStringValue(iniData, sectionName, "outboundProxyAddress"));
-        logger.log(LogLevel::INFO, "Outbound Proxy Address: " + getOutboundProxyAddress());
-        setUsernameForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_usernameForAuth"));
-        logger.log(LogLevel::INFO, "Username for Auth: " + getUsernameForAuth());
-        setPasswordForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_passwordForAuth"));
-        logger.log(LogLevel::INFO, "Password for Auth: " + getPasswordForAuth());
-        setIdmsIssuer(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_issuer"));
-        logger.log(LogLevel::INFO, "IDMS Issuer: " + getIdmsIssuer());
-        setIdmsAuthorizationEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_authorizationEndpoint"));
-        logger.log(LogLevel::INFO, "IDMS Authorization Endpoint: " + getIdmsAuthorizationEndpoint());
-        setIdmsTokenEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_tokenEndpoint"));
-        logger.log(LogLevel::INFO, "IDMS Token Endpoint: " + getIdmsTokenEndpoint());
-        setIdmsRefreshTokenEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_refreshTokenEndpoint"));
-        logger.log(LogLevel::INFO, "IDMS Refresh Token Endpoint: " + getIdmsRefreshTokenEndpoint());
-        setIdmsRedirectUri(helper_tool::IniHelper::getStringValue(iniData, sectionName, "idms_redirectUri"));
-        logger.log(LogLevel::INFO, "IDMS Redirect URI: " + getIdmsRedirectUri());
+        setOutboundProxyAddress(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::OUTBOUND_PROXY_KEY));
+        logger.log(LogLevel::DEBUG, "IDMS - Outbound Proxy Address: " + getOutboundProxyAddress());
+        setUsernameForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_USERNAME_KEY));
+        logger.log(LogLevel::DEBUG, "IDMS - Username for Auth: " + getUsernameForAuth());
+        setPasswordForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_PASSWORD_KEY));
+        logger.log(LogLevel::DEBUG, "IDMS - Password loaded");
+        setIdmsIssuer(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_ISSUER_KEY));
+        logger.log(LogLevel::DEBUG, "IDMS - Issuer: " + getIdmsIssuer());
+        setIdmsAuthorizationEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_AUTHORIZATION_ENDPOINT_KEY));
+        logger.log(LogLevel::DEBUG, "IDMS - Authorization Endpoint: " + getIdmsAuthorizationEndpoint());
+        setIdmsTokenEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_TOKEN_ENDPOINT_KEY));
+        logger.log(LogLevel::DEBUG, "IDMS - Token Endpoint: " + getIdmsTokenEndpoint());
+        setIdmsRefreshTokenEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_REFRESH_TOKEN_ENDPOINT_KEY));
+        logger.log(LogLevel::DEBUG, "IDMS - Refresh Token Endpoint: " + getIdmsRefreshTokenEndpoint());
+        setIdmsRedirectUri(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_REDIRECT_URI_KEY));
+        logger.log(LogLevel::DEBUG, "IDMS - Redirect URI: " + getIdmsRedirectUri());
     }
 
     std::string Config::toString() const {
-        return "Config{"
+        return "IdmsConfig{"
                "outboundProxyAddress='" + outboundProxyAddress + '\'' +
                ", usernameForAuth='" + usernameForAuth + '\'' +
-               ", passwordForAuth='" + passwordForAuth + '\'' +
+               ", passwordForAuth='<redacted>'" +
                ", idmsIssuer='" + idmsIssuer + '\'' +
                ", idmsAuthorizationEndpoint='" + idmsAuthorizationEndpoint + '\'' +
                ", idmsTokenEndpoint='" + idmsTokenEndpoint + '\'' +

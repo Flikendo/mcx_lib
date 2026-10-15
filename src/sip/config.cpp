@@ -1,5 +1,6 @@
 #include <sip/config.hpp>
 #include <ini_helper.hpp>
+#include <common/configuration/config_constants.hpp>
 
 namespace sip {
     void Config::setImpiUsername(const std::string& impiUsername) {
@@ -35,23 +36,23 @@ namespace sip {
     }
 
     void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
-        setImpiUsername(helper_tool::IniHelper::getStringValue(iniData, sectionName, "impi_username"));
-        logger.log(LogLevel::INFO, "IMPI Username: " + getImpiUsername());
-        setImpuUsername(helper_tool::IniHelper::getStringValue(iniData, sectionName, "impu_username"));
-        logger.log(LogLevel::INFO, "IMPU Username: " + getImpuUsername());
-        setPassword(helper_tool::IniHelper::getStringValue(iniData, sectionName, "password"));
-        logger.log(LogLevel::INFO, "Password: " + getPassword());
+        setImpiUsername(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::SIP_IMPI_USERNAME_KEY));
+        logger.log(LogLevel::DEBUG, "SIP - IMPI Username: " + getImpiUsername());
+        setImpuUsername(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::SIP_IMPU_USERNAME_KEY));
+        logger.log(LogLevel::DEBUG, "SIP - IMPU Username: " + getImpuUsername());
+        setPassword(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::SIP_PASSWORD_KEY));
+        logger.log(LogLevel::DEBUG, "SIP - Password loaded");
 
-        const auto protocolStr = helper_tool::IniHelper::getStringValue(iniData, sectionName, "transport_protocol");
+        const auto protocolStr = helper_tool::IniHelper::getStringValue(iniData, sectionName, common::SIP_TRANSPORT_PROTOCOL_KEY);
         if (protocolStr == "0") {
             setTransportProtocol(Protocol::UDP);
-            logger.log(LogLevel::INFO, "Transport Protocol: UDP");
+            logger.log(LogLevel::DEBUG, "SIP - Transport Protocol: UDP");
         } else if (protocolStr == "1") {
             setTransportProtocol(Protocol::TCP);
-            logger.log(LogLevel::INFO, "Transport Protocol: TCP");
+            logger.log(LogLevel::DEBUG, "SIP - Transport Protocol: TCP");
         } else if (protocolStr == "2") {
             setTransportProtocol(Protocol::TLS);
-            logger.log(LogLevel::INFO, "Transport Protocol: TLS");
+            logger.log(LogLevel::DEBUG, "SIP - Transport Protocol: TLS");
         } else {
             logger.log(LogLevel::ERROR, "Invalid transport protocol: " + protocolStr);
         }
@@ -59,10 +60,10 @@ namespace sip {
     }
 
     std::string Config::toString() const {
-        return "Config{"
+        return "SipConfig{"
                "impiUsername='" + impiUsername + '\'' +
                ", impuUsername='" + impuUsername + '\'' +
-               ", password='" + password + '\'' +
+               ", password='<redacted>'" +
                ", transportProtocol=" + std::to_string(static_cast<int>(transportProtocol)) +
                '}';
     }

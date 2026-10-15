@@ -18,20 +18,24 @@ namespace common {
              * @param iniFilePath The path to the INI file.
              * @param sectionName The name of the section in the INI file to read.
              * @param config The configuration object to populate.
+             * @throws std::runtime_error If the file is empty/unreadable or the section is missing.
              */
             void populateFromIniFile(const std::string& iniFilePath, const std::string& sectionName) {
                 const auto iniData = helper_tool::IniHelper::read(iniFilePath);
                 if (iniData.empty()) {
-                    logger.log(LogLevel::ERROR, "Failed to read INI file or it was empty: " + iniFilePath);
-                    throw std::runtime_error("Failed to read INI file or it was empty: " + iniFilePath);
+                    const std::string message =
+                        "Failed to read INI file or it was empty: " + iniFilePath;
+                    logger.log(LogLevel::ERROR, message);
+                    throw std::runtime_error(message);
                 }
 
                 if (iniData.find(sectionName) == iniData.end()) {
-                    logger.log(LogLevel::ERROR, "Section " + sectionName + " not found in INI file: " + iniFilePath);
-                    throw std::runtime_error("Section " + sectionName + " not found in INI file: " + iniFilePath);
+                    const std::string message =
+                        "Section " + sectionName + " not found in INI file: " + iniFilePath;
+                    logger.log(LogLevel::ERROR, message);
+                    throw std::runtime_error(message);
                 }
                 
-                logger.log(LogLevel::INFO, "Populating configuration from INI file: " + iniFilePath + ", section: " + sectionName);
                 populateFromIniData(iniData, sectionName);
             }
 

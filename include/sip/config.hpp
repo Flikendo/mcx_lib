@@ -1,6 +1,6 @@
 #pragma once
 
-#include <common/iconfig.hpp> 
+#include <common/configuration/iconfig.hpp> 
 #include <string>
 
 /**
