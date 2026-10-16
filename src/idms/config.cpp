@@ -1,5 +1,6 @@
 #include "idms/config.hpp"
 #include "common/configuration/config_constants.hpp"
+#include "helper_tool/ini_helper.hpp"
 
 namespace idms {
     void Config::setOutboundProxyAddress(const std::string& outboundProxyAddress) {

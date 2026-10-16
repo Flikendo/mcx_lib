@@ -1,14 +1,13 @@
 #pragma once
 
-#include "ini_helper.hpp"
-#include "logger_helper.hpp"
+#include "helper_tool/def_helper.hpp"
+#include "helper_tool/ini_helper.hpp"
+#include "helper_tool/logger_helper.hpp"
 #include <stdexcept>
 #include <string>
 
 class ConfigBase {
     public:
-        
-
         /**
          * Destructor for the ConfigBase class. Cleans up any resources used by the configuration settings.
          */

@@ -1,8 +1,10 @@
 #pragma once
 
-#include <string>
-#include <map>
 #include "common/configuration/config_base.hpp"
+#include "helper_tool/def_helper.hpp"
+
+#include <cstdint>
+#include <string>
 
 /**
  * @file config.hpp

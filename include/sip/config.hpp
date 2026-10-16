@@ -2,6 +2,7 @@
 
 #include "common/configuration/config_base.hpp"
 #include "common/network/transport_protocol.hpp"
+#include "helper_tool/def_helper.hpp"
 #include <string>
 
 /**

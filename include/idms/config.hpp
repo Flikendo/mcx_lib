@@ -1,5 +1,6 @@
 #pragma once
 
+#include "helper_tool/def_helper.hpp"
 #include <string>
 #include "common/configuration/config_base.hpp"
 
