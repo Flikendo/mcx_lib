@@ -7,8 +7,8 @@
 #include <cstdint>
 #include <stdexcept>
 #include <type_traits>
-#include <logger_helper.hpp>
-#include <def_helper.hpp>
+#include "logger_helper.hpp"
+#include "def_helper.hpp"
 
 /**
  * @file ini_helper.hpp
@@ -105,40 +105,47 @@ class IniHelper {
 
     inline std::string IniHelper::getStringValue(const DefHelper::ConfigMap& iniData, const std::string& section,
          const std::string& key) {
-        if(iniData.find(section) != iniData.end()) {
-            const auto& sectionData = iniData.at(section);
-
-            if(sectionData.find(key) != sectionData.end()) {
-                return sectionData.at(key);
-            }
+        const auto sectionIt = iniData.find(section);
+        if (sectionIt == iniData.end()) {
+            logger.log(LogLevel::ERROR, "INI section not found: " + section);
+            return "";
         }
 
-        return "";
+        const auto keyIt = sectionIt->second.find(key);
+        if (keyIt == sectionIt->second.end()) {
+            logger.log(LogLevel::ERROR, "INI key not found: " + key);
+            return "";
+        }
+
+        return keyIt->second;
     }
 
     template <typename T> T IniHelper::getValue(const DefHelper::ConfigMap& iniData, const std::string& section,
         const std::string& key) {
         const auto sectionIt = iniData.find(section);
         if (sectionIt == iniData.end()) {
-            logger.log(LogLevel::ERROR, "INI section not found: " + section);
             throw std::out_of_range("INI section not found: " + section);
         }
 
         const auto valueIt = sectionIt->second.find(key);
         if (valueIt == sectionIt->second.end()) {
-            logger.log(LogLevel::ERROR, "INI key not found: " + section + "." + key);
             throw std::out_of_range("INI key not found: " + section + "." + key);
         }
 
         const std::string& raw = valueIt->second;
         if constexpr (std::is_same_v<T, std::string>) {
+            logger.log(LogLevel::DEBUG, "Returning INI value as string: " + raw);
             return raw;
         } else if constexpr (std::is_same_v<T, int>) {
+            logger.log(LogLevel::DEBUG, "Converting INI value to int: " + raw);
             return std::stoi(raw);
         } else if constexpr (std::is_same_v<T, std::int64_t>) {
+            logger.log(LogLevel::DEBUG, "Converting INI value to int64_t: " + raw);
             return std::stoll(raw);
         } else {
-            static_assert(std::is_same_v<T, std::string> || std::is_same_v<T, int> ||
+            logger.log(LogLevel::ERROR, "Unsupported type for INI value conversion.");
+            static_assert(std::is_same_v<T, std::string> ||
+                std::is_same_v<T, int> ||
                 std::is_same_v<T, std::int64_t>,
                 "getValue supports only std::string, int, and std::int64_t");
         }       

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <common/configuration/iconfig.hpp> 
+#include "common/configuration/config_base.hpp"
+#include "common/network/transport_protocol.hpp"
 #include <string>
 
 /**
@@ -12,16 +13,7 @@
  * and runtime limits.
  */
 namespace sip {
-    /**
-     * Enumeration representing the transport protocols supported by the SIP client.
-     */
-    enum Protocol {
-        UDP,
-        TCP,
-        TLS
-    };
-
-    struct Config : public common::IConfig {
+    class Config : public ConfigBase {
         public:
             /**
              * Constructor for the Config class. Initializes configuration settings with default values.

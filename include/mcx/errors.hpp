@@ -1,1 +1,0 @@
-# stable categories and codes

@@ -1,1 +1,0 @@
-# conversation/message types

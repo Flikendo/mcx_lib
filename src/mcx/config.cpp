@@ -60,19 +60,19 @@ namespace mcx {
     }
 
     void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
-        setId(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::MCPTT_ID_KEY));
+        setId(helper_tool::IniHelper::getStringValue(iniData, sectionName, MCPTT_ID_KEY));
         logger.log(LogLevel::DEBUG, "MCX - ID: " + getId());
-        setClientId(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::MCPTT_CLIENT_ID_KEY));
+        setClientId(helper_tool::IniHelper::getStringValue(iniData, sectionName, MCPTT_CLIENT_ID_KEY));
         logger.log(LogLevel::DEBUG, "MCX - Client ID: " + getClientId());
-        setAccessToken(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::MCPTT_ACCESS_TOKEN_KEY));
-        logger.log(LogLevel::DEBUG, "MCX - Access Token loaded");
-        setRefreshToken(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::MCPTT_REFRESH_TOKEN_KEY));
-        logger.log(LogLevel::DEBUG, "MCX - Refresh Token loaded");
-        setClientSecret(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::MCPTT_CLIENT_SECRET_KEY));
-        logger.log(LogLevel::DEBUG, "MCX - Client Secret loaded");
-        setExpireTimestamp(helper_tool::IniHelper::getValue<std::int64_t>(iniData, sectionName, common::MCPTT_EXPIRATION_KEY));
+        setAccessToken(helper_tool::IniHelper::getStringValue(iniData, sectionName, MCPTT_ACCESS_TOKEN_KEY));
+        logger.log(LogLevel::DEBUG, "MCX - Access Token " + getAccessToken());
+        setRefreshToken(helper_tool::IniHelper::getStringValue(iniData, sectionName, MCPTT_REFRESH_TOKEN_KEY));
+        logger.log(LogLevel::DEBUG, "MCX - Refresh Token " + getRefreshToken());
+        setClientSecret(helper_tool::IniHelper::getStringValue(iniData, sectionName, MCPTT_CLIENT_SECRET_KEY));
+        logger.log(LogLevel::DEBUG, "MCX - Client Secret " + getClientSecret());
+        setExpireTimestamp(helper_tool::IniHelper::getValue<std::int64_t>(iniData, sectionName, MCPTT_EXPIRATION_KEY));
         logger.log(LogLevel::DEBUG, "MCX - Expire Timestamp: " + std::to_string(getExpireTimestamp()));
-        setScope(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::MCPTT_SCOPE_KEY));
+        setScope(helper_tool::IniHelper::getStringValue(iniData, sectionName, MCPTT_SCOPE_KEY));
         logger.log(LogLevel::DEBUG, "MCX - Scope: " + getScope());
     }
 

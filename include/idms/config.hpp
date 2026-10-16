@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <common/configuration/iconfig.hpp>
+#include "common/configuration/config_base.hpp"
 
 /**
  * @file config.hpp
@@ -11,7 +11,7 @@
  * and MCX services. These settings may include identities, service URLs, transport options, security policies, media capabilities, and runtime limits.
  */
 namespace idms {
-    struct Config : public common::IConfig {
+    class Config : public ConfigBase {
         public:
             /**
              * Constructor for the Config class. Initializes configuration settings with default values.

@@ -2,7 +2,7 @@
 
 #include <string>
 #include <map>
-#include <common/configuration/iconfig.hpp>
+#include "common/configuration/config_base.hpp"
 
 /**
  * @file config.hpp
@@ -13,7 +13,7 @@
  * capabilities, and runtime limits.
  */
 namespace mcx {
-    struct Config : public common::IConfig {
+    class Config : public ConfigBase {
         public:
             /**
              * Constructor for the Config class. Initializes configuration settings with default values.

@@ -1,5 +1,5 @@
-#include <idms/config.hpp>
-#include <common/configuration/config_constants.hpp>
+#include "idms/config.hpp"
+#include "common/configuration/config_constants.hpp"
 
 namespace idms {
     void Config::setOutboundProxyAddress(const std::string& outboundProxyAddress) {
@@ -67,21 +67,21 @@ namespace idms {
     }
 
     void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
-        setOutboundProxyAddress(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::OUTBOUND_PROXY_KEY));
+        setOutboundProxyAddress(helper_tool::IniHelper::getStringValue(iniData, sectionName, OUTBOUND_PROXY_KEY));
         logger.log(LogLevel::DEBUG, "IDMS - Outbound Proxy Address: " + getOutboundProxyAddress());
-        setUsernameForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_USERNAME_KEY));
+        setUsernameForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, IDMS_USERNAME_KEY));
         logger.log(LogLevel::DEBUG, "IDMS - Username for Auth: " + getUsernameForAuth());
-        setPasswordForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_PASSWORD_KEY));
-        logger.log(LogLevel::DEBUG, "IDMS - Password loaded");
-        setIdmsIssuer(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_ISSUER_KEY));
+        setPasswordForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, IDMS_PASSWORD_KEY));
+        logger.log(LogLevel::DEBUG, "IDMS - Password for Auth" + getPasswordForAuth());
+        setIdmsIssuer(helper_tool::IniHelper::getStringValue(iniData, sectionName, IDMS_ISSUER_KEY));
         logger.log(LogLevel::DEBUG, "IDMS - Issuer: " + getIdmsIssuer());
-        setIdmsAuthorizationEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_AUTHORIZATION_ENDPOINT_KEY));
+        setIdmsAuthorizationEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, IDMS_AUTHORIZATION_ENDPOINT_KEY));
         logger.log(LogLevel::DEBUG, "IDMS - Authorization Endpoint: " + getIdmsAuthorizationEndpoint());
-        setIdmsTokenEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_TOKEN_ENDPOINT_KEY));
+        setIdmsTokenEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, IDMS_TOKEN_ENDPOINT_KEY));
         logger.log(LogLevel::DEBUG, "IDMS - Token Endpoint: " + getIdmsTokenEndpoint());
-        setIdmsRefreshTokenEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_REFRESH_TOKEN_ENDPOINT_KEY));
+        setIdmsRefreshTokenEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, IDMS_REFRESH_TOKEN_ENDPOINT_KEY));
         logger.log(LogLevel::DEBUG, "IDMS - Refresh Token Endpoint: " + getIdmsRefreshTokenEndpoint());
-        setIdmsRedirectUri(helper_tool::IniHelper::getStringValue(iniData, sectionName, common::IDMS_REDIRECT_URI_KEY));
+        setIdmsRedirectUri(helper_tool::IniHelper::getStringValue(iniData, sectionName, IDMS_REDIRECT_URI_KEY));
         logger.log(LogLevel::DEBUG, "IDMS - Redirect URI: " + getIdmsRedirectUri());
     }
 
