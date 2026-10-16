@@ -15,7 +15,6 @@ add_library(mcx_lib ${MCX_LIB_SOURCES})
 target_include_directories(mcx_lib
     PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/include"
-        "${CMAKE_CURRENT_SOURCE_DIR}/helper_tool"
 )
 
 # Change this when adopting a newer C++ standard.
@@ -45,9 +44,6 @@ if(BUILD_TESTING)
 
         add_executable("${TEST_TARGET}" "${TEST_SOURCE}")
         target_link_libraries("${TEST_TARGET}" PRIVATE mcx_lib)
-        target_include_directories("${TEST_TARGET}" PRIVATE
-            "${CMAKE_CURRENT_SOURCE_DIR}/helper_tool"
-        )
 
         add_test(NAME "${TEST_TARGET}" COMMAND "${TEST_TARGET}")
         set_tests_properties("${TEST_TARGET}" PROPERTIES

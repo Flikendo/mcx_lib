@@ -3,10 +3,10 @@
 #include "sip/config.hpp"
 #include "helper_tool/ini_helper.hpp"
 #include "helper_tool/logger_helper.hpp"
+#include "common/configuration/config_constants.hpp"
+#include "common/configuration/config_manager.hpp"
 #include <iostream>
 #include <string>
-
-constexpr auto INI_FILE_PATH = "config.ini";
 
 int main(int argc, char* argv[]) {
     try {
@@ -32,16 +32,11 @@ int main(int argc, char* argv[]) {
     }
 
     // IDENTITY section validation
-    idms::Config idmsConfig;
-    idmsConfig.populateFromIniFile(INI_FILE_PATH, "IDENTITY");
+    ConfigManager configManager;
+    configManager.loadConfigFromIniFile(INI_FILE_PATH);
 
-    sip::Config sipConfig;
-    sipConfig.populateFromIniFile(INI_FILE_PATH, "IDENTITY");
-
-    mcx::Config mcxConfig;
-    mcxConfig.populateFromIniFile(INI_FILE_PATH, "IDENTITY");
-
-    std::cout << idmsConfig.toString() << sipConfig.toString() << mcxConfig.toString() << std::endl;
+    std::cout << configManager.getIdmsConfig().toString() << configManager.getSipConfig().toString() <<
+     configManager.getMcxConfig().toString() << std::endl;
 
     return 0;
 }

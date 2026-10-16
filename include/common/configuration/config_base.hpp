@@ -20,26 +20,7 @@ class ConfigBase {
          * @param config The configuration object to populate.
          * @throws std::runtime_error If the file is empty/unreadable or the section is missing.
          */
-        void populateFromIniFile(const std::string& iniFilePath, const std::string& sectionName) {
-            const auto iniData = helper_tool::IniHelper::read(iniFilePath);
-            if (iniData.empty()) {
-                const std::string message = "Failed to read INI file or it was empty: " + iniFilePath;
-                logger.log(LogLevel::ERROR, message);
-                throw std::runtime_error(message);
-                
-                return;
-            }
-
-            if (iniData.find(sectionName) == iniData.end()) {
-                const std::string message = "Section " + sectionName + " not found in INI file: " + iniFilePath;
-                logger.log(LogLevel::ERROR, message);
-                throw std::runtime_error(message);
-                
-                return;
-            }
-            
-            populateFromIniData(iniData, sectionName);
-        }
+        void populateFromIniFile(const std::string& iniFilePath, const std::string& sectionName);
 
         /**
          * Returns a string representation of the configuration settings.

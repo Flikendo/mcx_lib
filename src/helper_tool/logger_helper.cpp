@@ -12,10 +12,6 @@ Logger::Logger(const std::string& filename) {
     }
 }
 
-Logger::~Logger() {
-    logFile.close(); 
-}
-
 void Logger::setMinimumLogLevel(LogLevel level) {
     minimumLogLevelStorage() = level;
 }

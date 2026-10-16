@@ -21,7 +21,7 @@ namespace idms {
 
             /**
              * Sets the outbound proxy address for the MCX server.
-             * @param address The outbound proxy address as a string.
+             * @param outboundProxyAddress The outbound proxy address as a string.
              */
             void setOutboundProxyAddress(const std::string& outboundProxyAddress);
 
@@ -33,7 +33,7 @@ namespace idms {
 
             /**
              * Sets the username for authentication with the IDMS server.
-             * @param username The username as a string.
+             * @param usernameForAuth The username as a string.
              */
             void setUsernameForAuth(const std::string& usernameForAuth);
 
@@ -45,7 +45,7 @@ namespace idms {
 
             /**
              * Sets the password for authentication with the IDMS server.
-             * @param password The password as a string.
+             * @param passwordForAuth The password as a string.
              */
             void setPasswordForAuth(const std::string& passwordForAuth);
 
@@ -57,7 +57,7 @@ namespace idms {
 
             /**
              * Sets the IDMS issuer URL.
-             * @param issuer The IDMS issuer URL as a string.
+             * @param idmsIssuer The IDMS issuer URL as a string.
              */
             void setIdmsIssuer(const std::string& idmsIssuer);
 
@@ -69,7 +69,7 @@ namespace idms {
 
             /**
              * Sets the IDMS authorization endpoint URL.
-             * @param endpoint The IDMS authorization endpoint URL as a string.
+             * @param idmsAuthorizationEndpoint The IDMS authorization endpoint URL as a string.
              */
             void setIdmsAuthorizationEndpoint(const std::string& idmsAuthorizationEndpoint);
 
@@ -81,7 +81,7 @@ namespace idms {
 
             /**
              * Sets the IDMS token endpoint URL.
-             * @param endpoint The IDMS token endpoint URL as a string.
+             * @param idmsTokenEndpoint The IDMS token endpoint URL as a string.
              */
             void setIdmsTokenEndpoint(const std::string& idmsTokenEndpoint);
 
@@ -93,7 +93,7 @@ namespace idms {
 
             /**
              * Sets the IDMS refresh token endpoint URL.
-             * @param endpoint The IDMS refresh token endpoint URL as a string.
+             * @param idmsRefreshTokenEndpoint The IDMS refresh token endpoint URL as a string.
              */
             void setIdmsRefreshTokenEndpoint(const std::string& idmsRefreshTokenEndpoint);
 
@@ -105,7 +105,7 @@ namespace idms {
 
             /**
              * Sets the IDMS redirect URI.
-             * @param uri The IDMS redirect URI as a string.
+             * @param idmsRedirectUri The IDMS redirect URI as a string.
              */
             void setIdmsRedirectUri(const std::string& idmsRedirectUri);
 
