@@ -15,11 +15,6 @@ namespace idms {
     class Config : public ConfigBase {
         public:
             /**
-             * Constructor for the Config class. Initializes configuration settings with default values.
-             */
-            Config() = default;
-
-            /**
              * Sets the outbound proxy address for the MCX server.
              * @param outboundProxyAddress The outbound proxy address as a string.
              */

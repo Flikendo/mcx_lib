@@ -17,11 +17,6 @@ namespace sip {
     class Config : public ConfigBase {
         public:
             /**
-             * Constructor for the Config class. Initializes configuration settings with default values.
-             */
-            Config() = default;
-
-            /**
              * Sets the IMPI (IP Multimedia Private Identity) username.
              * @param username The IMPI username as a string.
              */

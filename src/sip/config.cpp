@@ -41,7 +41,7 @@ namespace sip {
         setImpuUsername(helper_tool::IniHelper::getStringValue(iniData, sectionName, SIP_IMPU_USERNAME_KEY));
         logger.log(LogLevel::DEBUG, "SIP - IMPU Username: " + getImpuUsername());
         setPassword(helper_tool::IniHelper::getStringValue(iniData, sectionName, SIP_PASSWORD_KEY));
-        logger.log(LogLevel::DEBUG, "SIP - Password " + getPassword());
+        logger.log(LogLevel::DEBUG, "SIP - Password loaded");
 
         const auto protocolStr = helper_tool::IniHelper::getStringValue(iniData, sectionName, SIP_TRANSPORT_PROTOCOL_KEY);
         if (protocolStr == "0") {
@@ -56,7 +56,6 @@ namespace sip {
         } else {
             logger.log(LogLevel::ERROR, "Invalid transport protocol: " + protocolStr);
         }
-
     }
 
     std::string Config::toString() const {

@@ -27,11 +27,6 @@ class Logger {
         Logger(const std::string& filename);
 
         /**
-         * Destructor: Closes the log file stream when the Logger object is destroyed.
-         */
-        ~Logger() = default;
-
-        /**
          * Sets the minimum log level for the logger.
          * @param level The minimum log level to display.
          */

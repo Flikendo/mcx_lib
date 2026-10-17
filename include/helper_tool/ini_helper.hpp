@@ -132,13 +132,10 @@ class IniHelper {
 
         const std::string& raw = valueIt->second;
         if constexpr (std::is_same_v<T, std::string>) {
-            logger.log(LogLevel::DEBUG, "Returning INI value as string: " + raw);
             return raw;
         } else if constexpr (std::is_same_v<T, int>) {
-            logger.log(LogLevel::DEBUG, "Converting INI value to int: " + raw);
             return std::stoi(raw);
         } else if constexpr (std::is_same_v<T, std::int64_t>) {
-            logger.log(LogLevel::DEBUG, "Converting INI value to int64_t: " + raw);
             return std::stoll(raw);
         } else {
             logger.log(LogLevel::ERROR, "Unsupported type for INI value conversion.");

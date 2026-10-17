@@ -73,7 +73,7 @@ namespace idms {
         setUsernameForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, IDMS_USERNAME_KEY));
         logger.log(LogLevel::DEBUG, "IDMS - Username for Auth: " + getUsernameForAuth());
         setPasswordForAuth(helper_tool::IniHelper::getStringValue(iniData, sectionName, IDMS_PASSWORD_KEY));
-        logger.log(LogLevel::DEBUG, "IDMS - Password for Auth" + getPasswordForAuth());
+        logger.log(LogLevel::DEBUG, "IDMS - Password loaded");
         setIdmsIssuer(helper_tool::IniHelper::getStringValue(iniData, sectionName, IDMS_ISSUER_KEY));
         logger.log(LogLevel::DEBUG, "IDMS - Issuer: " + getIdmsIssuer());
         setIdmsAuthorizationEndpoint(helper_tool::IniHelper::getStringValue(iniData, sectionName, IDMS_AUTHORIZATION_ENDPOINT_KEY));

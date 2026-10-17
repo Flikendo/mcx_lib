@@ -18,11 +18,6 @@ namespace mcx {
     class Config : public ConfigBase {
         public:
             /**
-             * Constructor for the Config class. Initializes configuration settings with default values.
-             */
-            Config() = default;
-
-            /**
              * Sets the MCX IP server address.
              * @param address The MCX IP server address as a string.
              */

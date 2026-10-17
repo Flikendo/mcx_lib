@@ -1,9 +1,7 @@
 #pragma once
 
 #include "helper_tool/def_helper.hpp"
-#include "helper_tool/ini_helper.hpp"
 #include "helper_tool/logger_helper.hpp"
-#include <stdexcept>
 #include <string>
 
 class ConfigBase {
@@ -14,13 +12,20 @@ class ConfigBase {
         virtual ~ConfigBase() = default;
         
         /**
-         * Populates the configuration settings from an INI file.
+         * Loads the configuration settings from an INI file.
          * @param iniFilePath The path to the INI file.
          * @param sectionName The name of the section in the INI file to read.
-         * @param config The configuration object to populate.
          * @throws std::runtime_error If the file is empty/unreadable or the section is missing.
          */
-        void populateFromIniFile(const std::string& iniFilePath, const std::string& sectionName);
+        void loadFromIniFile(const std::string& iniFilePath, const std::string& sectionName);
+
+        /**
+         * Populates this configuration from already parsed INI data.
+         * @param iniData The nested map containing the INI data.
+         * @param sectionName The name of the section in the INI data to read.
+         * @throws std::runtime_error If the data is empty or the section is missing.
+         */
+        void loadFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName);
 
         /**
          * Returns a string representation of the configuration settings.
