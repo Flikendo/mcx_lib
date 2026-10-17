@@ -41,7 +41,6 @@ class ConfigBase {
          */
         virtual void populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) = 0;
 
-    protected:
         /**
          * Logger instance for logging configuration-related messages.
          * This can be used to log errors, warnings, or informational messages related to configuration processing
