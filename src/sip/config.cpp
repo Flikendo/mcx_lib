@@ -2,6 +2,8 @@
 #include "helper_tool/ini_helper.hpp"
 #include "common/configuration/config_constants.hpp"
 
+#include <stdexcept>
+
 namespace sip {
     void Config::setImpiUsername(const std::string& impiUsername) {
         this->impiUsername = impiUsername;
@@ -54,7 +56,9 @@ namespace sip {
             setTransportProtocol(Protocol::TLS);
             logger.log(LogLevel::DEBUG, "SIP - Transport Protocol: TLS");
         } else {
-            logger.log(LogLevel::ERROR, "Invalid transport protocol: " + protocolStr);
+            const std::string message = "Invalid SIP transport protocol: " + protocolStr;
+            logger.log(LogLevel::ERROR, message);
+            throw std::invalid_argument(message);
         }
     }
 

@@ -11,7 +11,7 @@
  * @file config_manager.hpp
  * @brief Configuration manager for the MCX client.
  *
- * Config manager which manage the whole configuration
+ * Owns and loads the IDMS, SIP, and MCX configuration objects.
  */
 class ConfigManager {
     public:
@@ -21,10 +21,7 @@ class ConfigManager {
          */
         const idms::Config& getIdmsConfig() const;
 
-        /**
-         * Gets SIP configuration
-         * @return configuration for IDMS
-         */
+        /** Returns the SIP configuration. */
         const sip::Config& getSipConfig() const;
 
         /**
@@ -36,7 +33,8 @@ class ConfigManager {
         /**
          * Loads the IDMS, SIP, and MCX configurations from an INI file.
          * @param path Path to the INI file containing the configuration sections.
-         * @throws std::runtime_error If the file cannot be read or a required section is missing.
+         * @throws std::runtime_error If the file cannot be read or the required section is missing.
+         * @throws std::invalid_argument If a configuration value is invalid.
          */
         void loadConfigFromIniFile(const std::string& path);
 

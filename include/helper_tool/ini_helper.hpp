@@ -134,9 +134,19 @@ class IniHelper {
         if constexpr (std::is_same_v<T, std::string>) {
             return raw;
         } else if constexpr (std::is_same_v<T, int>) {
-            return std::stoi(raw);
+            std::size_t parsedLength = 0;
+            const int value = std::stoi(raw, &parsedLength);
+            if (parsedLength != raw.size()) {
+                throw std::invalid_argument("Invalid integer in INI key: " + section + "." + key);
+            }
+            return value;
         } else if constexpr (std::is_same_v<T, std::int64_t>) {
-            return std::stoll(raw);
+            std::size_t parsedLength = 0;
+            const std::int64_t value = std::stoll(raw, &parsedLength);
+            if (parsedLength != raw.size()) {
+                throw std::invalid_argument("Invalid integer in INI key: " + section + "." + key);
+            }
+            return value;
         } else {
             logger.log(LogLevel::ERROR, "Unsupported type for INI value conversion.");
             static_assert(std::is_same_v<T, std::string> ||

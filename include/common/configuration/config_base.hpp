@@ -6,11 +6,14 @@
 
 class ConfigBase {
     public:
-        /**
-         * Destructor for the ConfigBase class. Cleans up any resources used by the configuration settings.
-         */
+        ConfigBase() = default;
         virtual ~ConfigBase() = default;
-        
+
+        ConfigBase(const ConfigBase&) = delete;
+        ConfigBase& operator=(const ConfigBase&) = delete;
+        ConfigBase(ConfigBase&&) noexcept = default;
+        ConfigBase& operator=(ConfigBase&&) noexcept = default;
+
         /**
          * Loads the configuration settings from an INI file.
          * @param iniFilePath The path to the INI file.
@@ -41,10 +44,5 @@ class ConfigBase {
          */
         virtual void populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) = 0;
 
-    protected:
-        /**
-         * Logger instance for logging configuration-related messages.
-         * This can be used to log errors, warnings, or informational messages related to configuration processing
-         */
         Logger logger;
 };

@@ -78,7 +78,7 @@ namespace sip {
              */
             void populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) override;
         
-        public:
+        private:
         /**
          * The IMPI (IP Multimedia Private Identity) is a unique identifier used in IMS (IP Multimedia Subsystem) networks
          * to identify a user. It is typically used for authentication and authorization purposes.
@@ -100,6 +100,6 @@ namespace sip {
         /**
          * The transport protocol used for communication with the SIP/IMS infrastructure. This may include UDP, TCP, or TLS.
          */
-        Protocol transportProtocol;
+        Protocol transportProtocol = Protocol::UDP;
     };
 }
