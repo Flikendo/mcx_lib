@@ -12,10 +12,7 @@ add_library(mcx_lib ${MCX_LIB_SOURCES})
 
 # Put public headers under include/ and include them as <module/header.hpp>.
 # Add dependency include directories here if the library needs external headers.
-target_include_directories(mcx_lib
-    PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/include"
-)
+target_include_directories(mcx_lib PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 # Change this when adopting a newer C++ standard.
 target_compile_features(mcx_lib PUBLIC cxx_std_17)
@@ -26,6 +23,9 @@ if(MSVC)
 else()
     target_compile_options(mcx_lib PRIVATE -Wall -Wextra -Wpedantic)
 endif()
+
+add_executable(mcx_lib_mock apps/mock_app/mcxlibapp.cpp)
+target_link_libraries(mcx_lib_mock PRIVATE mcx_lib)
 
 include(CTest)
 if(BUILD_TESTING)

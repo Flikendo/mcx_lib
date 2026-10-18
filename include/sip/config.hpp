@@ -79,27 +79,27 @@ namespace sip {
             void populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) override;
         
         private:
-        /**
-         * The IMPI (IP Multimedia Private Identity) is a unique identifier used in IMS (IP Multimedia Subsystem) networks
-         * to identify a user. It is typically used for authentication and authorization purposes.
-         */
-        std::string impiUsername;
+            /**
+             * The IMPI (IP Multimedia Private Identity) is a unique identifier used in IMS (IP Multimedia Subsystem) networks
+             * to identify a user. It is typically used for authentication and authorization purposes.
+             */
+            std::string impiUsername;
 
-        /**
-         * The IMPU (IP Multimedia Public Identity) is a unique identifier used in IMS (IP Multimedia Subsystem) networks
-         * to identify a user. It is typically used for registration and discovery purposes.
-         */
-        std::string impuUsername;
+            /**
+             * The IMPU (IP Multimedia Public Identity) is a unique identifier used in IMS (IP Multimedia Subsystem) networks
+             * to identify a user. It is typically used for registration and discovery purposes.
+             */
+            std::string impuUsername;
 
-        /**
-         * The password associated with the IMPI is used for authentication in IMS networks. It should be kept confidential and
-         * not shared with unauthorized parties.
-         */
-        std::string password;
+            /**
+             * The password associated with the IMPI is used for authentication in IMS networks. It should be kept confidential and
+             * not shared with unauthorized parties.
+             */
+            std::string password;
 
-        /**
-         * The transport protocol used for communication with the SIP/IMS infrastructure. This may include UDP, TCP, or TLS.
-         */
-        Protocol transportProtocol = Protocol::UDP;
+            /**
+             * The transport protocol used for communication with the SIP/IMS infrastructure. This may include UDP, TCP, or TLS.
+             */
+            Protocol transportProtocol = Protocol::UDP;
     };
 }

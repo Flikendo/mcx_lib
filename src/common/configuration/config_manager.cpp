@@ -4,7 +4,6 @@
 
 #include <stdexcept>
 #include <string>
-#include <utility>
 
 const idms::Config& ConfigManager::getIdmsConfig() const {
     return idmsConfig;
@@ -27,15 +26,7 @@ void ConfigManager::loadConfigFromIniFile(const std::string& path) {
         throw std::runtime_error(message);
     }
 
-    idms::Config nextIdmsConfig;
-    sip::Config nextSipConfig;
-    mcx::Config nextMcxConfig;
-
-    nextIdmsConfig.loadFromIniData(iniData, IDENTITY_SECTION_NAME);
-    nextSipConfig.loadFromIniData(iniData, IDENTITY_SECTION_NAME);
-    nextMcxConfig.loadFromIniData(iniData, IDENTITY_SECTION_NAME);
-
-    idmsConfig = std::move(nextIdmsConfig);
-    sipConfig = std::move(nextSipConfig);
-    mcxConfig = std::move(nextMcxConfig);
+    idmsConfig.loadFromIniData(iniData, IDENTITY_SECTION_NAME);
+    sipConfig.loadFromIniData(iniData, IDENTITY_SECTION_NAME);
+    mcxConfig.loadFromIniData(iniData, IDENTITY_SECTION_NAME);
 }

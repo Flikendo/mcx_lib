@@ -2,23 +2,19 @@
 
 #include "helper_tool/def_helper.hpp"
 #include "helper_tool/logger_helper.hpp"
+
 #include <string>
 
 class ConfigBase {
     public:
-        ConfigBase() = default;
         virtual ~ConfigBase() = default;
-
-        ConfigBase(const ConfigBase&) = delete;
-        ConfigBase& operator=(const ConfigBase&) = delete;
-        ConfigBase(ConfigBase&&) noexcept = default;
-        ConfigBase& operator=(ConfigBase&&) noexcept = default;
 
         /**
          * Loads the configuration settings from an INI file.
          * @param iniFilePath The path to the INI file.
          * @param sectionName The name of the section in the INI file to read.
          * @throws std::runtime_error If the file is empty/unreadable or the section is missing.
+         * @throws std::invalid_argument If a configuration value is invalid.
          */
         void loadFromIniFile(const std::string& iniFilePath, const std::string& sectionName);
 
@@ -27,6 +23,7 @@ class ConfigBase {
          * @param iniData The nested map containing the INI data.
          * @param sectionName The name of the section in the INI data to read.
          * @throws std::runtime_error If the data is empty or the section is missing.
+         * @throws std::invalid_argument If a configuration value is invalid.
          */
         void loadFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName);
 
@@ -37,12 +34,19 @@ class ConfigBase {
         virtual std::string toString() const = 0;
 
     protected:
+        ConfigBase() = default;
+
         /**
          * Populates the configuration settings from the provided INI data.
          * @param iniData The nested map containing the INI data.
          * @param sectionName The name of the section in the INI data to read.
          */
         virtual void populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) = 0;
+
+        /**
+         * Configures the minimum log level
+         */
+        virtual void configureMinimumLogLevel() = 0;
 
         Logger logger;
 };

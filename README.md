@@ -19,6 +19,22 @@ MinGW compiler and `mingw32-make` must be installed and available on `PATH`.
 Use a new build directory if changing CMake generators or when reusing a
 directory configured for a different source tree; CMake caches both settings.
 
+## Building the Library and Mock App
+
+The `mcx_lib` target builds the library. The separate `mcx_lib_mock` target
+builds a mock application that links against the library:
+
+```powershell
+cmake --build .\build\project-mingw --target mcx_lib
+cmake --build .\build\project-mingw --target mcx_lib_mock
+```
+
+Run the mock app from the repository root so it can find `config.ini`:
+
+```powershell
+.\build\project-mingw\mcx_lib_mock.exe
+```
+
 To see output from passing tests, add `-V`:
 
 ```powershell

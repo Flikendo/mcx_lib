@@ -115,6 +115,10 @@ class IniHelper {
             return "";
         }
 
+        if (keyIt->second.empty()) {
+            logger.log(LogLevel::WARNING, "INI key has value empty" + key);
+        }
+
         return keyIt->second;
     }
 
@@ -131,6 +135,10 @@ class IniHelper {
         }
 
         const std::string& raw = valueIt->second;
+        if (raw.empty()) {
+            logger.log(LogLevel::WARNING, "INI key has value empty");
+        }
+        
         if constexpr (std::is_same_v<T, std::string>) {
             return raw;
         } else if constexpr (std::is_same_v<T, int>) {
