@@ -116,7 +116,7 @@ class IniHelper {
         }
 
         if (keyIt->second.empty()) {
-            logger.log(LogLevel::WARNING, "INI key has value empty" + key);
+            logger.log(LogLevel::WARNING, "INI key has value empty " + key);
         }
 
         return keyIt->second;

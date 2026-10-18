@@ -1,6 +1,7 @@
 #include "common/configuration/config_base.hpp"
-
+#include "common/configuration/config_constants.hpp"
 #include "helper_tool/ini_helper.hpp"
+#include "helper_tool/logger_helper.hpp"
 
 #include <stdexcept>
 
@@ -27,6 +28,13 @@ void ConfigBase::loadFromIniData(const DefHelper::ConfigMap& iniData, const std:
         logger.log(LogLevel::ERROR, message);
         throw std::runtime_error(message);
     }
-
+    
+    configureMinimumLogLevel(iniData);
     populateFromIniData(iniData, sectionName);
+}
+
+void ConfigBase::configureMinimumLogLevel(const DefHelper::ConfigMap& iniData) {
+    std::string minimumConfigLog = helper_tool::IniHelper::getStringValue(iniData, LOG_SECTION_NAME, MINIMUN_CONFIG_LOG);
+    LogLevel logLevel = logger.parseLogLevel(minimumConfigLog);
+    logger.setMinimumLogLevel(logLevel);
 }

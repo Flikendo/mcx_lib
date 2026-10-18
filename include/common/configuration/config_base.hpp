@@ -27,12 +27,6 @@ class ConfigBase {
          */
         void loadFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName);
 
-        /**
-         * Returns a string representation of the configuration settings.
-         * @return A string containing the configuration settings in a human-readable format.
-         */
-        virtual std::string toString() const = 0;
-
     protected:
         ConfigBase() = default;
 
@@ -44,9 +38,16 @@ class ConfigBase {
         virtual void populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) = 0;
 
         /**
-         * Configures the minimum log level
+         * Configures the minimum log level for configuration
+         * @param iniData The nested map containing the INI data.
          */
-        virtual void configureMinimumLogLevel() = 0;
+        void configureMinimumLogLevel(const DefHelper::ConfigMap& iniData);
+       
+        /**
+         * Returns a string representation of the configuration settings.
+         * @return A string containing the configuration settings in a human-readable format.
+         */
+        virtual std::string toString() const = 0;
 
         Logger logger;
 };

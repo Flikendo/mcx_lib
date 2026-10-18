@@ -30,7 +30,7 @@ class Logger {
          * Sets the minimum log level for the logger.
          * @param level The minimum log level to display.
          */
-        static void setMinimumLogLevel(LogLevel level);
+        void setMinimumLogLevel(LogLevel level);
 
         /**
          * Parses a string representation of a log level and returns the corresponding LogLevel enum value.
