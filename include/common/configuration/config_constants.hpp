@@ -1,6 +1,8 @@
 #pragma once
 
-// TESTING
+/**
+ * TESTING
+ */
 constexpr const char* INI_FILE_PATH = "config.ini";
 
 /**
