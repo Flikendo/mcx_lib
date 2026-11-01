@@ -59,7 +59,7 @@ namespace mcx {
         return this->scope;
     }
 
-    status_code_t Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
+    void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
         setId(IniHelper::getStringValue(iniData, sectionName, MCPTT_ID_KEY));
         logger.log(LogLevel::DEBUG, "MCX - ID: " + getId());
         setClientId(IniHelper::getStringValue(iniData, sectionName, MCPTT_CLIENT_ID_KEY));

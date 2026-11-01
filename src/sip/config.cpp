@@ -37,7 +37,7 @@ namespace sip {
         return this->transportProtocol;
     }
 
-    status_code_t Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
+    void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
         setImpiUsername(IniHelper::getStringValue(iniData, sectionName, SIP_IMPI_USERNAME_KEY));
         logger.log(LogLevel::DEBUG, "SIP - IMPI Username: " + getImpiUsername());
         setImpuUsername(IniHelper::getStringValue(iniData, sectionName, SIP_IMPU_USERNAME_KEY));

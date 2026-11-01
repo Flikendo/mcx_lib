@@ -67,7 +67,7 @@ namespace idms {
         return idmsRedirectUri;
     }
 
-    status_code_t Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
+    void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
         setOutboundProxyAddress(IniHelper::getStringValue(iniData, sectionName, OUTBOUND_PROXY_KEY));
         logger.log(LogLevel::DEBUG, "IDMS - Outbound Proxy Address: " + getOutboundProxyAddress());
         setUsernameForAuth(IniHelper::getStringValue(iniData, sectionName, IDMS_USERNAME_KEY));

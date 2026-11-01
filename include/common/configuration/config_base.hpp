@@ -36,7 +36,7 @@ class ConfigBase {
          * @param iniData The nested map containing the INI data.
          * @param sectionName The name of the section in the INI data to read.
          */
-        virtual status_code_t populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) = 0;
+        virtual void populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) = 0;
 
         /**
          * Configures the minimum log level for configuration

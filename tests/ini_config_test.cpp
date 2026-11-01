@@ -1,6 +1,7 @@
 #include "common/configuration/config_constants.hpp"
 #include "common/configuration/config_manager.hpp"
 #include "helper_tool/ini_helper.hpp"
+#include "mcx/client.hpp"
 
 #include <chrono>
 #include <filesystem>
@@ -54,7 +55,9 @@ namespace {
                      << "mcptt_refreshToken=test-refresh-token\n"
                      << "mcptt_clientSecret=test-client-secret\n"
                      << "mcptt_expireTimestamp=123456789\n"
-                     << "mcptt_scope=test-scope\n";
+                     << "mcptt_scope=test-scope\n"
+                     << "[LOG]\n"
+                     << "minimum_config_log=INFO\n";
 
                 if (!file) {
                     throw std::runtime_error("Could not write temporary INI test file");
@@ -72,6 +75,17 @@ namespace {
 
 int main() {
     try {
+        mcx::Client client;
+        require(!client.isRunning(), "Client should start stopped");
+        client.start();
+        require(client.isRunning(), "Client did not start");
+        client.start();
+        require(client.isRunning(), "Starting an active client should be harmless");
+        client.stop();
+        require(!client.isRunning(), "Client did not stop");
+        client.stop();
+        require(!client.isRunning(), "Stopping an inactive client should be harmless");
+
         const DefHelper::ConfigMap data = {
             {IDENTITY_SECTION_NAME, {
                 {"numericValue", "42"},
