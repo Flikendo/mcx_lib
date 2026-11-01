@@ -4,6 +4,7 @@
 #include "helper_tool/log_helper.hpp"
 #include "mcx/config.hpp"
 #include "sip/config.hpp"
+#include "api/data/types.h"
 
 #include <string>
 
@@ -16,12 +17,24 @@
 class ConfigManager {
     public:
         /**
+         * Constructor
+         */
+        ConfigManager() = default;
+
+        /**
+         * Destructor
+         */
+        ~ConfigManager();
+
+        /**
          * Gets the IDMS configuration
          * @return configuration for IDMS
          */
         const idms::Config& getIdmsConfig() const;
 
-        /** Returns the SIP configuration. */
+        /** 
+         * Returns the SIP configuration.
+         */
         const sip::Config& getSipConfig() const;
 
         /**
@@ -36,7 +49,7 @@ class ConfigManager {
          * @throws std::runtime_error If the file cannot be read or the required section is missing.
          * @throws std::invalid_argument If a configuration value is invalid.
          */
-        void loadConfigFromIniFile(const std::string& path);
+        status_code_t loadConfigFromIniFile(const std::string& path);
 
     private:
         /**

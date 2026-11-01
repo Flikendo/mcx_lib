@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 void ConfigBase::loadFromIniFile(const std::string& iniFilePath, const std::string& sectionName) {
-    const auto iniData = helper_tool::IniHelper::read(iniFilePath);
+    const auto iniData = IniHelper::read(iniFilePath);
     if (iniData.empty()) {
         const std::string message = "Failed to read INI file or it was empty: " + iniFilePath;
         logger.log(LogLevel::ERROR, message);
@@ -34,7 +34,7 @@ void ConfigBase::loadFromIniData(const DefHelper::ConfigMap& iniData, const std:
 }
 
 void ConfigBase::configureMinimumLogLevel(const DefHelper::ConfigMap& iniData) {
-    std::string minimumConfigLog = helper_tool::IniHelper::getStringValue(iniData, LOG_SECTION_NAME, MINIMUN_CONFIG_LOG);
+    std::string minimumConfigLog = IniHelper::getStringValue(iniData, LOG_SECTION_NAME, MINIMUN_CONFIG_LOG);
     LogLevel logLevel = logger.parseLogLevel(minimumConfigLog);
     logger.setMinimumLogLevel(logLevel);
 }

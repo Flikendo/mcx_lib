@@ -59,20 +59,20 @@ namespace mcx {
         return this->scope;
     }
 
-    void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
-        setId(helper_tool::IniHelper::getStringValue(iniData, sectionName, MCPTT_ID_KEY));
+    status_code_t Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
+        setId(IniHelper::getStringValue(iniData, sectionName, MCPTT_ID_KEY));
         logger.log(LogLevel::DEBUG, "MCX - ID: " + getId());
-        setClientId(helper_tool::IniHelper::getStringValue(iniData, sectionName, MCPTT_CLIENT_ID_KEY));
+        setClientId(IniHelper::getStringValue(iniData, sectionName, MCPTT_CLIENT_ID_KEY));
         logger.log(LogLevel::DEBUG, "MCX - Client ID: " + getClientId());
-        setAccessToken(helper_tool::IniHelper::getStringValue(iniData, sectionName, MCPTT_ACCESS_TOKEN_KEY));
+        setAccessToken(IniHelper::getStringValue(iniData, sectionName, MCPTT_ACCESS_TOKEN_KEY));
         logger.log(LogLevel::DEBUG, "MCX - Access Token loaded");
-        setRefreshToken(helper_tool::IniHelper::getStringValue(iniData, sectionName, MCPTT_REFRESH_TOKEN_KEY));
+        setRefreshToken(IniHelper::getStringValue(iniData, sectionName, MCPTT_REFRESH_TOKEN_KEY));
         logger.log(LogLevel::DEBUG, "MCX - Refresh Token loaded");
-        setClientSecret(helper_tool::IniHelper::getStringValue(iniData, sectionName, MCPTT_CLIENT_SECRET_KEY));
+        setClientSecret(IniHelper::getStringValue(iniData, sectionName, MCPTT_CLIENT_SECRET_KEY));
         logger.log(LogLevel::DEBUG, "MCX - Client Secret loaded");
-        setExpireTimestamp(helper_tool::IniHelper::getValue<std::int64_t>(iniData, sectionName, MCPTT_EXPIRATION_KEY));
+        setExpireTimestamp(IniHelper::getValue<std::int64_t>(iniData, sectionName, MCPTT_EXPIRATION_KEY));
         logger.log(LogLevel::DEBUG, "MCX - Expire Timestamp: " + std::to_string(getExpireTimestamp()));
-        setScope(helper_tool::IniHelper::getStringValue(iniData, sectionName, MCPTT_SCOPE_KEY));
+        setScope(IniHelper::getStringValue(iniData, sectionName, MCPTT_SCOPE_KEY));
         logger.log(LogLevel::DEBUG, "MCX - Scope: " + getScope());
     }
 

@@ -75,8 +75,9 @@ namespace sip {
              * Populates the configuration settings from the provided INI data.
              * @param iniData The nested map containing the INI data.
              * @param sectionName The name of the section in the INI data to read.
+             * @return status_code_t STATUS_CODE_OK when if it goes right, otherwise STATUS_CODE_ERROR.
              */
-            void populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) override;
+            status_code_t populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) override;
         
         private:
             /**

@@ -37,15 +37,15 @@ namespace sip {
         return this->transportProtocol;
     }
 
-    void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
-        setImpiUsername(helper_tool::IniHelper::getStringValue(iniData, sectionName, SIP_IMPI_USERNAME_KEY));
+    status_code_t Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
+        setImpiUsername(IniHelper::getStringValue(iniData, sectionName, SIP_IMPI_USERNAME_KEY));
         logger.log(LogLevel::DEBUG, "SIP - IMPI Username: " + getImpiUsername());
-        setImpuUsername(helper_tool::IniHelper::getStringValue(iniData, sectionName, SIP_IMPU_USERNAME_KEY));
+        setImpuUsername(IniHelper::getStringValue(iniData, sectionName, SIP_IMPU_USERNAME_KEY));
         logger.log(LogLevel::DEBUG, "SIP - IMPU Username: " + getImpuUsername());
-        setPassword(helper_tool::IniHelper::getStringValue(iniData, sectionName, SIP_PASSWORD_KEY));
+        setPassword(IniHelper::getStringValue(iniData, sectionName, SIP_PASSWORD_KEY));
         logger.log(LogLevel::DEBUG, "SIP - Password loaded");
 
-        const auto protocolStr = helper_tool::IniHelper::getStringValue(iniData, sectionName, SIP_TRANSPORT_PROTOCOL_KEY);
+        const auto protocolStr = IniHelper::getStringValue(iniData, sectionName, SIP_TRANSPORT_PROTOCOL_KEY);
         if (protocolStr == "0") {
             setTransportProtocol(Protocol::UDP);
             logger.log(LogLevel::DEBUG, "SIP - Transport Protocol: UDP");
