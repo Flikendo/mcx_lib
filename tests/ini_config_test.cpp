@@ -1,7 +1,7 @@
 #include "common/configuration/config_constants.hpp"
 #include "common/configuration/config_manager.hpp"
 #include "helper_tool/ini_helper.hpp"
-#include "mcx/client.hpp"
+#include "api/client.h"
 
 #include <chrono>
 #include <filesystem>
@@ -75,16 +75,9 @@ namespace {
 
 int main() {
     try {
-        mcx::Client client;
-        require(!client.isRunning(), "Client should start stopped");
-        client.start();
-        require(client.isRunning(), "Client did not start");
-        client.start();
-        require(client.isRunning(), "Starting an active client should be harmless");
-        client.stop();
-        require(!client.isRunning(), "Client did not stop");
-        client.stop();
-        require(!client.isRunning(), "Stopping an inactive client should be harmless");
+        client_handler_t* client = init();
+        require(client != nullptr, "Client initialization failed");
+        require(deinit(client) == STATUS_CODE_OK, "Client deinitialization failed");
 
         const DefHelper::ConfigMap data = {
             {IDENTITY_SECTION_NAME, {
@@ -94,16 +87,24 @@ int main() {
             }}
         };
 
-        require(helper_tool::IniHelper::getValue<int>(data, IDENTITY_SECTION_NAME, "numericValue") == 42,
+        const DefHelper::ConfigMap stringData = IniHelper::readConfig(
+            "[IDENTITY]; first=one, second=two\nthird=three\r\n[LOG],minimum_config_log=INFO");
+        require(stringData.at("IDENTITY").at("first") == "one" &&
+                stringData.at("IDENTITY").at("second") == "two" &&
+                stringData.at("IDENTITY").at("third") == "three" &&
+                stringData.at("LOG").at("minimum_config_log") == "INFO",
+                "String INI parsing should support semicolon, comma, and newline separators");
+
+        require(IniHelper::getValue<int>(data, IDENTITY_SECTION_NAME, "numericValue") == 42,
                 "Typed INI value conversion failed");
-        require(helper_tool::IniHelper::getStringValue(data, IDENTITY_SECTION_NAME, "emptyValue").empty(),
+        require(IniHelper::getStringValue(data, IDENTITY_SECTION_NAME, "emptyValue").empty(),
                 "Empty INI values should remain empty");
-        require(helper_tool::IniHelper::getStringValue(data, IDENTITY_SECTION_NAME, "missingValue").empty(),
+        require(IniHelper::getStringValue(data, IDENTITY_SECTION_NAME, "missingValue").empty(),
                 "Missing string values should return an empty string");
 
         bool missingValueThrew = false;
         try {
-            helper_tool::IniHelper::getValue<int>(data, IDENTITY_SECTION_NAME, "missingValue");
+            IniHelper::getValue<int>(data, IDENTITY_SECTION_NAME, "missingValue");
         } catch (const std::out_of_range&) {
             missingValueThrew = true;
         }
@@ -111,7 +112,7 @@ int main() {
 
         bool invalidNumericValueThrew = false;
         try {
-            helper_tool::IniHelper::getValue<int>(data, IDENTITY_SECTION_NAME, "invalidNumericValue");
+            IniHelper::getValue<int>(data, IDENTITY_SECTION_NAME, "invalidNumericValue");
         } catch (const std::invalid_argument&) {
             invalidNumericValueThrew = true;
         }
@@ -129,7 +130,7 @@ int main() {
         ConfigManager configManager;
         TempIniFile iniFile;
         iniFile.write("1");
-        configManager.loadConfigFromIniFile(iniFile.getPath().string());
+        configManager.loadConfig(iniFile.getPath().string(), true);
 
         require(configManager.getIdmsConfig().getUsernameForAuth() == "test-user",
                 "IDMS configuration did not load");
@@ -154,7 +155,7 @@ int main() {
         iniFile.write("invalid");
         bool invalidProtocolThrew = false;
         try {
-            invalidConfigManager.loadConfigFromIniFile(iniFile.getPath().string());
+            invalidConfigManager.loadConfig(iniFile.getPath().string(), true);
         } catch (const std::invalid_argument&) {
             invalidProtocolThrew = true;
         }

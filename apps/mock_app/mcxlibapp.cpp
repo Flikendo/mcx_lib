@@ -1,53 +1,40 @@
+#include "api/client.h"
 #include "common/configuration/config_constants.hpp"
-#include "common/configuration/config_manager.hpp"
 
 #include <iostream>
 
-/**
- * Output lines
- */
-constexpr const char* START_LIBRARY = "*** STARTING LIBRARY MCX_LIB ***";
-
-/**
- * Commands
- */
-constexpr const char* LOAD_CONFIG_FILE = "--> Loading INI config file"; 
-constexpr const char* LIST_COMMANDS = "--> List of commads";
-constexpr const char* QUIT_APP_MOCK = "--> Quit APP mock";
-
-void loadConfigFromFile(ConfigManager& configManager) {
-    std::cout << LOAD_CONFIG_FILE << std::endl;
-
-    configManager.loadConfigFromIniFile(INI_FILE_PATH);
-
-    std::cout << configManager.getIdmsConfig().toString() << configManager.getSipConfig().toString() <<
-    configManager.getMcxConfig().toString() << std::endl;
-}
-
-void listCommands() {
-    std::cout << LIST_COMMANDS << std::endl;
-    std::cout << "q -> " << QUIT_APP_MOCK << std::endl;
-    std::cout << "s -> " << LOAD_CONFIG_FILE << std::endl;
-}
-
 int main() {
+    client_handler_t* client = nullptr;
     char command = '\0';
-    ConfigManager configManager;
 
-    std::cout << START_LIBRARY << std::endl;
+    std::cout << "MCX library client mock\n";
 
     while (command != 'q') {
-        listCommands();
-        std::cout << "Enter a command: " << std::endl;
-        std::cin >> command;
+        std::cout << "s = start, q = stop and quit\nEnter command: ";
+        if (!(std::cin >> command)) {
+            if (client != nullptr) {
+                deinit(client);
+            }
+            return 0;
+        }
 
         switch (command) {
-            case 'q': 
-                std::cout << QUIT_APP_MOCK << std:: endl;
-            break;
-            case 's': 
-                loadConfigFromFile(configManager);
-            break;
+            case 's':
+                client = init();
+                loadIniFileFromPath(client, INI_FILE_PATH);
+                std::cout << "Client running\n";
+                break;
+            case 'q':
+                if (client != nullptr) {
+                    deinit(client);
+                }
+                std::cout << "Client stopped\n";
+                break;
+            default:
+                std::cout << "Unknown command\n";
+                break;
         }
     }
+
+    return 0;
 }

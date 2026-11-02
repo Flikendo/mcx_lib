@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 void ConfigBase::loadFromIniFile(const std::string& iniFilePath, const std::string& sectionName) {
-    const auto iniData = IniHelper::read(iniFilePath);
+    const auto iniData = IniHelper::readConfig(iniFilePath);
     if (iniData.empty()) {
         const std::string message = "Failed to read INI file or it was empty: " + iniFilePath;
         logger.log(LogLevel::ERROR, message);

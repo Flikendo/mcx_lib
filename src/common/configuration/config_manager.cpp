@@ -17,11 +17,17 @@ const mcx::Config& ConfigManager::getMcxConfig() const {
     return mcxConfig;
 }
 
-status_code_t ConfigManager::loadConfigFromIniFile(const std::string& path) {
-    const auto iniData = IniHelper::read(path);
+status_code_t ConfigManager::loadConfig(const std::string& config, bool fromPathFile) {
+    DefHelper::ConfigMap iniData;
+
+    if (fromPathFile) {
+        iniData = IniHelper::readPath(config);
+    } else {
+        iniData = IniHelper::readConfig(config);
+    }
 
     if (iniData.empty()) {
-        const std::string message = "Failed to read INI file or it was empty: " + path;
+        const std::string message = "Failed to read INI file or it was empty: " + config;
         logger.log(LogLevel::ERROR, message);
         
         return STATUS_CODE_ERROR;

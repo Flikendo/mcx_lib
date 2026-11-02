@@ -22,13 +22,14 @@ extern "C" {
     /**
      * Loads INI config from path file.
      * @param path Path to the INI file containing the configuration sections.
+     * @return status_code_t STATUS_CODE_OK when if it goes right, otherwise STATUS_CODE_ERROR.
      */
     OUT status_code_t CALLCLIENT loadIniFileFromPath(IN client_handler_t* client, IN const char* pathFile);
     
     /**
      * Loads INI config from string.
      * @param iniConfig config already read from path.
-     * @return status_code_t STATUS_CODE_OK when if it goes right, otherwise STATUS_CODE_ERROR.status_code_t STATUS_CODE_OK when if it goes right, otherwise STATUS_CODE_ERROR.
+     * @return status_code_t STATUS_CODE_OK when if it goes right, otherwise STATUS_CODE_ERROR.
      */
     OUT status_code_t CALLCLIENT loadIniFileFromString(IN client_handler_t* client, const char* iniConfig);
 }

@@ -18,7 +18,14 @@ class IniHelper {
          * @param filePath The path to the INI file.
          * @return A map where the keys are section names and the values are maps of key-value pairs within those sections.
         */
-        static DefHelper::ConfigMap read(const std::string& filePath);
+        static DefHelper::ConfigMap readPath(const std::string& filePath);
+
+        /** Parses INI configuration text and returns its contents as a nested map.
+         * Entries may be separated by semicolons, commas, or newlines.
+         * @param config Configuration INI text.
+         * @return A map where the keys are section names and the values are maps of key-value pairs within those sections.
+        */
+        static DefHelper::ConfigMap readConfig(const std::string& config);
 
         /** Gets a string value from the INI data.
          * @param iniData The nested map containing the INI data.
@@ -67,7 +74,7 @@ inline std::string IniHelper::trim(const std::string& value) {
     return value.substr(first, last - first + 1);
 }
 
-inline DefHelper::ConfigMap IniHelper::read(const std::string& filePath) {
+inline DefHelper::ConfigMap IniHelper::readPath(const std::string& filePath) {
     DefHelper::ConfigMap iniData;
     std::ifstream file(filePath);
     std::string line;
@@ -94,6 +101,46 @@ inline DefHelper::ConfigMap IniHelper::read(const std::string& filePath) {
         const std::string key = trim(trimmed.substr(0, equalPos));
         const std::string value = trim(trimmed.substr(equalPos + 1));
         iniData[currentSection][key] = value;
+    }
+
+    return iniData;
+}
+
+inline DefHelper::ConfigMap IniHelper::readConfig(const std::string& config) {
+    DefHelper::ConfigMap iniData;
+    std::string currentSection;
+
+    const auto parseEntry = [&iniData, &currentSection](const std::string& entry) {
+        const std::string trimmed = trim(entry);
+        if (trimmed.empty() || trimmed[0] == '#') {
+            return;
+        }
+
+        if (trimmed.front() == '[' && trimmed.back() == ']') {
+            currentSection = trim(trimmed.substr(1, trimmed.size() - 2));
+            iniData[currentSection] = {};
+            return;
+        }
+
+        const std::size_t equalPos = trimmed.find('=');
+        if (equalPos == std::string::npos || currentSection.empty()) {
+            return;
+        }
+
+        const std::string key = trim(trimmed.substr(0, equalPos));
+        const std::string value = trim(trimmed.substr(equalPos + 1));
+        iniData[currentSection][key] = value;
+    };
+
+    std::size_t entryStart = 0;
+    while (entryStart <= config.size()) {
+        const std::size_t separator = config.find_first_of(";,\r\n", entryStart);
+        parseEntry(config.substr(entryStart, separator == std::string::npos ? std::string::npos : separator - entryStart));
+
+        if (separator == std::string::npos) {
+            break;
+        }
+        entryStart = separator + 1;
     }
 
     return iniData;
