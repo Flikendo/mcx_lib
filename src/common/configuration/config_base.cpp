@@ -5,17 +5,6 @@
 
 #include <stdexcept>
 
-void ConfigBase::loadFromIniFile(const std::string& iniFilePath, const std::string& sectionName) {
-    const auto iniData = IniHelper::readConfig(iniFilePath);
-    if (iniData.empty()) {
-        const std::string message = "Failed to read INI file or it was empty: " + iniFilePath;
-        logger.log(LogLevel::ERROR, message);
-        throw std::runtime_error(message);
-    }
-
-    loadFromIniData(iniData, sectionName);
-}
-
 void ConfigBase::loadFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
     if (iniData.empty()) {
         const std::string message = "Cannot populate configuration from empty INI data";

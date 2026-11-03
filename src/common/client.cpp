@@ -25,7 +25,6 @@ client_handler_t* init(void) {
  */
 status_code_t deinit(client_handler_t* client) {
     if (client == nullptr) {
-        client->logger.log(LogLevel::ERROR, "Deinit client - client is NULL");
         return STATUS_CODE_ERROR;
     }
 

@@ -9,16 +9,7 @@
 class ConfigBase {
     public:
         virtual ~ConfigBase() = default;
-
-        /**
-         * Loads the configuration settings from an INI file.
-         * @param iniFilePath The path to the INI file.
-         * @param sectionName The name of the section in the INI file to read.
-         * @throws std::runtime_error If the file is empty/unreadable or the section is missing.
-         * @throws std::invalid_argument If a configuration value is invalid.
-         */
-        void loadFromIniFile(const std::string& iniFilePath, const std::string& sectionName);
-
+        
         /**
          * Populates this configuration from already parsed INI data.
          * @param iniData The nested map containing the INI data.
