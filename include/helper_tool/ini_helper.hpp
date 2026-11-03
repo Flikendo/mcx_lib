@@ -25,7 +25,7 @@ class IniHelper {
          * @param config Configuration INI text.
          * @return A map where the keys are section names and the values are maps of key-value pairs within those sections.
         */
-        static DefHelper::ConfigMap readConfig(const std::string& config);
+        static DefHelper::ConfigMap readConfigString(const std::string& config);
 
         /** Gets a string value from the INI data.
          * @param iniData The nested map containing the INI data.
@@ -106,7 +106,7 @@ inline DefHelper::ConfigMap IniHelper::readPath(const std::string& filePath) {
     return iniData;
 }
 
-inline DefHelper::ConfigMap IniHelper::readConfig(const std::string& config) {
+inline DefHelper::ConfigMap IniHelper::readConfigString(const std::string& config) {
     DefHelper::ConfigMap iniData;
     std::string currentSection;
 
