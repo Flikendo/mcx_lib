@@ -34,47 +34,25 @@ status_code_t deinit(client_handler_t* client) {
 }
 
 /**
- * Loads INI config from path file.
- * @param path Path to the INI file containing the configuration sections.
+ * Loads INI config.
+ * @param client The MCX client struct
+ * @param iniConfig The INI configuration string or path to the INI file.
+ * @param isFromPath true if iniConfig is a path to the INI file, false if it is the INI configuration string.
  * @return status_code_t STATUS_CODE_OK when if it goes right, otherwise STATUS_CODE_ERROR.
  */
-status_code_t loadIniFileFromPath(IN client_handler_t* client, const char* pathFile) {
+status_code_t loadIniFile(IN client_handler_t* client, const char* iniConfig, IN bool isFromPath) {
     if (client == nullptr ) {
         return STATUS_CODE_ERROR;
     }
 
-    if (pathFile == nullptr) {
+    if (iniConfig == nullptr) {
         client->logger.log(LogLevel::ERROR, "Loading INI file from path");
-        return STATUS_CODE_ERROR;
+        return STATUS_CODE_ERR_CONFIG;
     }
 
     try {
         client->logger.log(LogLevel::DEBUG, "Loading INI file from path");
-        return client->configManager.loadConfig(pathFile, true);
-    } catch (const std::exception& error) {
-        client->logger.log(LogLevel::ERROR, error.what());
-        return STATUS_CODE_ERROR;
-    }
-}
-
-/**
- * Loads INI config from string.
- * @param iniConfig config already read from string.
- * @return status_code_t STATUS_CODE_OK when if it goes right, otherwise STATUS_CODE_ERROR.
- */
-status_code_t loadIniFileFromString(IN client_handler_t* client, const char* iniConfig) {
-    if (client == nullptr) {
-        return STATUS_CODE_ERROR;
-    }
-    
-    if (iniConfig == nullptr) {
-        client->logger.log(LogLevel::ERROR, "Loading INI file from string");        
-        return STATUS_CODE_ERROR;
-    }
-
-    try {
-        client->logger.log(LogLevel::DEBUG, "Loading INI file from string");
-        return client->configManager.loadConfig(iniConfig, false);
+        return client->configManager.loadConfig(iniConfig, isFromPath);
     } catch (const std::exception& error) {
         client->logger.log(LogLevel::ERROR, error.what());
         return STATUS_CODE_ERROR;

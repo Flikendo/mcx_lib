@@ -21,7 +21,7 @@ int main() {
         switch (command) {
             case 's':
                 client = init();
-                loadIniFileFromPath(client, INI_FILE_PATH);
+                loadIniFile(client, INI_FILE_PATH, true);
                 std::cout << "Client running\n";
                 break;
             case 'q':

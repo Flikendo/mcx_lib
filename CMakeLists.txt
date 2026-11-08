@@ -1,39 +1,31 @@
 cmake_minimum_required(VERSION 3.12)
-
 project(mcx_lib VERSION 1.0 LANGUAGES CXX)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-# Add library implementation files (.cpp) under src/. This recursive search
-# includes new class files and subdirectories automatically after reconfiguration.
 file(GLOB_RECURSE MCX_LIB_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
 add_library(mcx_lib SHARED ${MCX_LIB_SOURCES})
-
 target_include_directories(mcx_lib
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+           $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
-
-# Change this when adopting a newer C++ standard.
 target_compile_features(mcx_lib PUBLIC cxx_std_17)
 target_compile_definitions(mcx_lib PRIVATE MCX_LIB_BUILDING_LIBRARY)
 set_target_properties(mcx_lib PROPERTIES
-    EXPORT_NAME mcx_lib
     CXX_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN YES
 )
 
-# Add or adjust project-wide compiler warning/options here.
 if(MSVC)
-    target_compile_options(mcx_lib PRIVATE /W4)
+    set(MCX_WARNING_OPTIONS /W4)
 else()
-    target_compile_options(mcx_lib PRIVATE -Wall -Wextra -Wpedantic)
+    set(MCX_WARNING_OPTIONS -Wall -Wextra -Wpedantic)
 endif()
+target_compile_options(mcx_lib PRIVATE ${MCX_WARNING_OPTIONS})
 
 set(MCX_LIB_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/mcx_lib")
 
@@ -56,8 +48,9 @@ install(TARGETS mcx_lib
     RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
 )
 
-install(FILES include/mcx/client.hpp
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/mcx"
+install(DIRECTORY include/api/
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/api"
+    FILES_MATCHING PATTERN "*.h"
 )
 
 install(EXPORT mcx_libTargets
@@ -66,8 +59,7 @@ install(EXPORT mcx_libTargets
     DESTINATION "${MCX_LIB_INSTALL_CMAKEDIR}"
 )
 
-install(FILES
-    "${CMAKE_CURRENT_BINARY_DIR}/mcx_libConfig.cmake"
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/mcx_libConfig.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/mcx_libConfigVersion.cmake"
     DESTINATION "${MCX_LIB_INSTALL_CMAKEDIR}"
 )
@@ -78,20 +70,11 @@ target_link_libraries(mcx_lib_mock PRIVATE mcx_lib)
 include(CTest)
 if(BUILD_TESTING)
     add_library(mcx_lib_test_support STATIC ${MCX_LIB_SOURCES})
-    target_include_directories(mcx_lib_test_support
-        PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include"
-    )
+    target_include_directories(mcx_lib_test_support PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
     target_compile_features(mcx_lib_test_support PUBLIC cxx_std_17)
     target_compile_definitions(mcx_lib_test_support PUBLIC MCX_LIB_STATIC)
+    target_compile_options(mcx_lib_test_support PRIVATE ${MCX_WARNING_OPTIONS})
 
-    if(MSVC)
-        target_compile_options(mcx_lib_test_support PRIVATE /W4)
-    else()
-        target_compile_options(mcx_lib_test_support PRIVATE -Wall -Wextra -Wpedantic)
-    endif()
-
-    # Every .cpp file under tests/ is built and registered as an independent
-    # test executable. Use its relative path for a unique target/test name.
     file(GLOB_RECURSE MCX_LIB_TEST_SOURCES CONFIGURE_DEPENDS
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"
     )
@@ -102,10 +85,8 @@ if(BUILD_TESTING)
         string(REPLACE "/" "_" TEST_NAME "${TEST_NAME}")
         string(REPLACE "\\" "_" TEST_NAME "${TEST_NAME}")
         set(TEST_TARGET "mcx_test_${TEST_NAME}")
-
         add_executable("${TEST_TARGET}" "${TEST_SOURCE}")
         target_link_libraries("${TEST_TARGET}" PRIVATE mcx_lib_test_support)
-
         add_test(NAME "${TEST_TARGET}" COMMAND "${TEST_TARGET}")
         set_tests_properties("${TEST_TARGET}" PROPERTIES
             WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"

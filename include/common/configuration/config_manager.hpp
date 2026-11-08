@@ -46,11 +46,10 @@ class ConfigManager {
         /**
          * Loads the IDMS, SIP, and MCX configurations from an INI file.
          * @param config configuration sections.
-         * @param fromPathFile true if config has to be set from path file, false when it has to be set from a string.
-         * @throws std::runtime_error If the file cannot be read or the required section is missing.
-         * @throws std::invalid_argument If a configuration value is invalid.
+         * @param isFromPath true if config has to be set from path file, false when it has to be set from a string.
+         * @return status_code_t STATUS_CODE_OK when if it goes right, otherwise STATUS_CODE_ERROR.
          */
-        status_code_t loadConfig(const std::string& config, bool fromPathFile);
+        status_code_t loadConfig(const std::string& config, bool isFromPath);
 
     private:
         /**

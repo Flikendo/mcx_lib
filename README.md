@@ -37,9 +37,10 @@ The mock app exercises the public client lifecycle API:
 
 ## Installing the Public Library Package
 
-The install package contains the compiled `mcx_lib`, the public
-`mcx/client.hpp` header, and CMake package files. Internal headers and source
-files are not installed. The library is built as a shared library: a `.dll`
+The install package contains the compiled `mcx_lib`, the public API headers
+under `api/`, and CMake package files. Internal headers and source files are
+not installed. Include the client API with `#include <api/client.h>`. The
+library is built as a shared library: a `.dll`
 and import library on Windows, or a `.so` on Linux. The consuming application
 must be able to find the shared library at runtime. Configuration test
 internals are built into a separate, non-installed support archive.
@@ -83,13 +84,13 @@ executable command above to choose a level for an individual run.
 ## Extending the CMake Project
 
 The top-level `CMakeLists.txt` defines the `mcx_lib` library from its
-implementation files, installs only the supported `mcx/client.hpp` public
-header, and defines the mock and test targets. New implementation files
+implementation files, installs the public API headers under `api/`, and
+defines the mock and test targets. New implementation files
 (`.cpp`) placed anywhere under `src/` are
 automatically added to the library, including files in new subdirectories.
 Library headers belong under `include/`; only headers explicitly listed by
 the install rules are part of the distributed API. For example, the installed
-client header is included as `#include <mcx/client.hpp>`. Internal headers can
+client header is included as `#include <api/client.h>`. Internal headers can
 also live under `include/` for project organization without being installed.
 No CMake source-list change is needed for new `.cpp` files under `src/`; CMake
 detects them when the project is reconfigured.
