@@ -20,7 +20,7 @@ int main() {
 
     while (command != 'q') {
         printUsage();
-        
+
         if (!(std::cin >> command)) {
             if (client != nullptr) {
                 deinit(client);
@@ -38,7 +38,7 @@ int main() {
                 if (client != nullptr) {
                     deinit(client);
                 }
-                std::cout << "Client stopped\n";
+                std::cout << "Application stopped\n";
                 break;
             default:
                 std::cout << "Unknown command\n";

@@ -29,7 +29,7 @@ LogLevel Logger::parseLogLevel(const std::string& name) {
 }
 
 void Logger::log(LogLevel level, const std::string& message) {
-    if (level < minimumLogLevel()) {
+    if (level < getMinimumLogLevel()) {
         return;
     }
 
@@ -56,7 +56,7 @@ void Logger::log(LogLevel level, const std::string& message) {
     }
 }
 
-LogLevel Logger::minimumLogLevel() {
+LogLevel Logger::getMinimumLogLevel() {
     return minimumLogLevelStorage();
 }
 

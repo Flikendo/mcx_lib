@@ -50,7 +50,7 @@ class Logger {
          * Returns the current minimum log level for the logger.
          * @return The current minimum log level.
          */
-        static LogLevel minimumLogLevel();
+        static LogLevel getMinimumLogLevel();
 
         /**
          * Returns a reference to the static storage for the minimum log level.
