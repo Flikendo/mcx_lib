@@ -3,6 +3,15 @@
 
 #include <iostream>
 
+void printUsage() {
+    std::cout << "Usage: mock_app [options]\n";
+    std::cout << "Options:\n";
+    std::cout << "  -h, --help      Show this help message\n";
+    std::cout << "  -s, --start     Start the MCX client\n";
+    std::cout << "  -q, --quit      Stop the MCX client and quit\n";
+    std::cout << "Enter command: \n";
+}
+
 int main() {
     client_handler_t* client = nullptr;
     char command = '\0';
@@ -10,7 +19,8 @@ int main() {
     std::cout << "MCX library client mock\n";
 
     while (command != 'q') {
-        std::cout << "s = start, q = stop and quit\nEnter command: ";
+        printUsage();
+        
         if (!(std::cin >> command)) {
             if (client != nullptr) {
                 deinit(client);

@@ -22,7 +22,8 @@ directory configured for a different source tree; CMake caches both settings.
 ## Building the Library and Mock App
 
 The `mcx_lib` target builds the library. The separate `mcx_lib_mock` target
-builds a mock application that links against the library:
+builds the mock application from `apps/mock_app/mcxlibapp.cpp` and links it
+against the library:
 
 ```powershell
 cmake --build .\build\project-mingw --target mcx_lib
