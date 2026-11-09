@@ -23,7 +23,7 @@ status_code_t ConfigManager::loadConfig(const std::string& config, bool isFromPa
     if (isFromPath) {
         iniData = IniHelper::readPath(config);
     } else {
-        iniData = IniHelper::readConfigString(config);
+        iniData = IniHelper::fromBuffer(config);
     }
 
     if (iniData.empty()) {

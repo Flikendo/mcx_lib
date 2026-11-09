@@ -87,7 +87,7 @@ int main() {
             }}
         };
 
-        const DefHelper::ConfigMap stringData = IniHelper::readConfigString(
+        const DefHelper::ConfigMap stringData = IniHelper::fromBuffer(
             "[IDENTITY]; first=one, second=two\nthird=three\r\n[LOG],minimum_config_log=INFO");
         require(stringData.at("IDENTITY").at("first") == "one" &&
                 stringData.at("IDENTITY").at("second") == "two" &&
