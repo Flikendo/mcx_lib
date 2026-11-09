@@ -18,7 +18,7 @@ class IniHelper {
          * @param filePath The path to the INI file.
          * @return A map where the keys are section names and the values are maps of key-value pairs within those sections.
         */
-        static DefHelper::ConfigMap readPath(const std::string& filePath);
+        static DefHelper::ConfigMap fromFile(const std::string& filePath);
 
         /** Parses INI configuration text and returns its contents as a nested map.
          * Entries may be separated by semicolons, commas, or newlines.
@@ -74,7 +74,7 @@ inline std::string IniHelper::trim(const std::string& value) {
     return value.substr(first, last - first + 1);
 }
 
-inline DefHelper::ConfigMap IniHelper::readPath(const std::string& filePath) {
+inline DefHelper::ConfigMap IniHelper::fromFile(const std::string& filePath) {
     DefHelper::ConfigMap iniData;
     std::ifstream file(filePath);
     std::string line;

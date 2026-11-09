@@ -21,7 +21,7 @@ status_code_t ConfigManager::loadConfig(const std::string& config, bool isFromPa
     DefHelper::ConfigMap iniData;
 
     if (isFromPath) {
-        iniData = IniHelper::readPath(config);
+        iniData = IniHelper::fromFile(config);
     } else {
         iniData = IniHelper::fromBuffer(config);
     }
