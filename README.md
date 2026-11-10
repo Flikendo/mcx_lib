@@ -104,21 +104,47 @@ Tests run with the repository root as their working directory, so they can
 refer to project files such as `config.ini` by relative path. Test executables
 link to `mcx_lib`, so its implementation files are compiled once and shared.
 
-## Project Directory Layout
-### Build
-Contains all the output of building process
+## External libs
+### How to use PJSIP -  Embed PJSIP Inside libmcx.so (Static Bundling)
+Download tar.gz proper version from https://github.com/pjsip/pjproject/releases/ in Windows.
 
-### Docs
-Contains documentation files, explaining how the project works
+1. Enable and install WSL on your Windows with Ubuntu-24.04  distro.
 
-### Include
-Contains public header files .h / .hpp
+2. Install dependencies in Ubuntu-24.04 with commands below:
 
-### Libs
-Contains external libraries
+<code>sudo apt update</code>
 
-### Src
-Contains .cpp files
+<code> sudo apt install -y build-essential cmake pkg-config git libssl-dev libasound2-dev</code>
 
-### Tests
-Contains automated test scripts
+3. Untar version with command below:
+
+<code>tar -xzf pjproject-*.tar.gz</code>
+
+
+4. Copy pjproject-* to ~/
+
+<code>cp -r /mnt/c/pjproject-* ~/pjproject-*</code>
+
+<code>cd ~/pjproject-*</code>
+
+5. Convert any Windows CRLF line endings to Linux LF (just in case).
+
+<code>sudo apt update && sudo apt install -y dos2unix</code>
+
+6. Create site config and configure:
+
+<code>./configure CFLAGS="-fPIC"</code>
+
+<code>make dep && make</code>
+
+<code>sudo make install</code>
+
+<code>sudo ldconfig</code>
+
+Verify Your Installation in One Command:
+
+<code>pkg-config --modversion libpjproject</code>
+
+<code>pkg-config --cflags --libs libpjproject</code>
+
+
