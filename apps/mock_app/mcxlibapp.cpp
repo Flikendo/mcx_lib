@@ -1,4 +1,5 @@
-#include "api/client.h"
+#include "api/client_config.h"
+#include "api/client_lifecycle.h"
 #include "common/configuration/config_constants.hpp"
 
 #include <iostream>

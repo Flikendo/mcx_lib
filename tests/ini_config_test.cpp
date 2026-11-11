@@ -1,7 +1,8 @@
 #include "common/configuration/config_constants.hpp"
 #include "common/configuration/config_manager.hpp"
 #include "helper_tool/ini_helper.hpp"
-#include "api/client.h"
+#include "api/client_config.h"
+#include "api/client_lifecycle.h"
 
 #include <chrono>
 #include <filesystem>

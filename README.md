@@ -40,7 +40,8 @@ The mock app exercises the public client lifecycle API:
 
 The install package contains the compiled `mcx_lib`, the public API headers
 under `api/`, and CMake package files. Internal headers and source files are
-not installed. Include the client API with `#include <api/client.h>`. The
+not installed. Include `api/client_lifecycle.h` for client creation and
+destruction, and `api/client_config.h` for configuration loading. The
 library is built as a shared library: a `.dll`
 and import library on Windows, or a `.so` on Linux. The consuming application
 must be able to find the shared library at runtime. Configuration test
@@ -90,9 +91,10 @@ defines the mock and test targets. New implementation files
 (`.cpp`) placed anywhere under `src/` are
 automatically added to the library, including files in new subdirectories.
 Library headers belong under `include/`; only headers explicitly listed by
-the install rules are part of the distributed API. For example, the installed
-client header is included as `#include <api/client.h>`. Internal headers can
-also live under `include/` for project organization without being installed.
+the install rules are part of the distributed API. Include
+`#include <api/client_lifecycle.h>` for client creation and destruction, and
+`#include <api/client_config.h>` for configuration loading. Internal headers
+can also live under `include/` for project organization without being installed.
 No CMake source-list change is needed for new `.cpp` files under `src/`; CMake
 detects them when the project is reconfigured.
 
@@ -146,5 +148,4 @@ Verify Your Installation in One Command:
 <code>pkg-config --modversion libpjproject</code>
 
 <code>pkg-config --cflags --libs libpjproject</code>
-
 
