@@ -19,6 +19,20 @@ MinGW compiler and `mingw32-make` must be installed and available on `PATH`.
 Use a new build directory if changing CMake generators or when reusing a
 directory configured for a different source tree; CMake caches both settings.
 
+For WSL, use a separate build directory from the Windows MinGW build. From
+the repository root in the WSL shell, configure, build, and test with:
+
+```bash
+cmake -S . -B build-wsl -DBUILD_TESTING=ON
+cmake --build build-wsl -j2
+ctest --test-dir build-wsl --output-on-failure
+```
+
+After the initial configuration, rebuild changes with
+`cmake --build build-wsl -j2`. Do not reuse the Windows-configured build
+directory from WSL; CMake build directories are tied to the platform,
+generator, and source path used to configure them.
+
 ## Building the Library and Mock App
 
 The `mcx_lib` target builds the library. The separate `mcx_lib_mock` target
@@ -35,6 +49,16 @@ The mock app exercises the public client lifecycle API:
 ```powershell
 .\build\project-mingw\mcx_lib_mock.exe
 ```
+
+For the WSL build, run the Linux executable from the repository root:
+
+```bash
+cmake --build build-wsl --target mcx_lib_mock -j2
+./build-wsl/mcx_lib_mock
+```
+
+Use forward slashes and the Linux executable name in WSL. The `.exe` command
+above is for PowerShell.
 
 ## Installing the Public Library Package
 
@@ -92,9 +116,16 @@ defines the mock and test targets. New implementation files
 automatically added to the library, including files in new subdirectories.
 Library headers belong under `include/`; only headers explicitly listed by
 the install rules are part of the distributed API. Include
-`#include <api/client_lifecycle.h>` for client creation and destruction, and
-`#include <api/client_config.h>` for configuration loading. Internal headers
-can also live under `include/` for project organization without being installed.
+`<api/client_lifecycle.h>` for client creation and destruction, and
+`<api/client_config.h>` for configuration loading. For example:
+
+```cpp
+#include <api/client_lifecycle.h>
+#include <api/client_config.h>
+```
+
+Internal headers can also live under `include/` for project organization
+without being installed.
 No CMake source-list change is needed for new `.cpp` files under `src/`; CMake
 detects them when the project is reconfigured.
 
@@ -104,11 +135,19 @@ executable and registered with CTest. Use one test program (with its own
 executable and test name. No CMake changes are needed when adding test files.
 Tests run with the repository root as their working directory, so they can
 refer to project files such as `config.ini` by relative path. Test executables
-link to `mcx_lib`, so its implementation files are compiled once and shared.
+link to the separate `mcx_lib_test_support` target, which compiles the library
+sources for static linking into the tests.
 
 ## External libs
-### How to use PJSIP -  Embed PJSIP Inside libmcx.so (Static Bundling)
-Download tar.gz proper version from https://github.com/pjsip/pjproject/releases/ in Windows.
+### Building and Installing PJSIP
+
+These steps build and install PJSIP in WSL. The current top-level CMake
+configuration does not yet discover or link PJSIP, so installing it alone does
+not embed it in `mcx_lib`; PJSIP integration still needs to be added to CMake
+and to the SIP implementation.
+
+Download the appropriate `pjproject` source archive from
+https://github.com/pjsip/pjproject/releases/ .
 
 1. Enable and install WSL on your Windows with Ubuntu-24.04  distro.
 
@@ -123,9 +162,9 @@ Download tar.gz proper version from https://github.com/pjsip/pjproject/releases/
 <code>tar -xzf pjproject-*.tar.gz</code>
 
 
-4. Copy pjproject-* to ~/
+4. Copy the extracted `pjproject` directory into your WSL home directory.
 
-<code>cp -r /mnt/c/pjproject-* ~/pjproject-*</code>
+<code>cp -r /mnt/c/path/to/pjproject-* ~/</code>
 
 <code>cd ~/pjproject-*</code>
 
@@ -148,4 +187,3 @@ Verify Your Installation in One Command:
 <code>pkg-config --modversion libpjproject</code>
 
 <code>pkg-config --cflags --libs libpjproject</code>
-
