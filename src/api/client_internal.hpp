@@ -3,9 +3,13 @@
 
 #include "common/configuration/config_manager.hpp"
 #include "helper_tool/log_helper.hpp"
+#include "sip/client_impl.hpp"
 
-struct client_handler {
+#include <memory>
+
+struct client_handle {
     ConfigManager configManager;
+    std::unique_ptr<sip::ClientImpl> sipClient;
     Logger logger;
 };
 

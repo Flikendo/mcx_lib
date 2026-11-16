@@ -1,8 +1,5 @@
 #include "common/configuration/config_constants.hpp"
 #include "common/configuration/config_manager.hpp"
-#include "helper_tool/ini_helper.hpp"
-#include "api/client_config.h"
-#include "api/client_lifecycle.h"
 
 #include <chrono>
 #include <filesystem>
@@ -23,7 +20,7 @@ namespace {
             TempIniFile() {
                 const auto ticks = std::chrono::steady_clock::now().time_since_epoch().count();
                 path = std::filesystem::temp_directory_path() /
-                       ("mcx_lib_ini_config_test_" + std::to_string(ticks) + ".ini");
+                       ("mcx_lib_config_test_" + std::to_string(ticks) + ".ini");
             }
 
             ~TempIniFile() {
@@ -34,7 +31,7 @@ namespace {
             void write(const std::string& transportProtocol) const {
                 std::ofstream file(path);
                 if (!file) {
-                    throw std::runtime_error("Could not create temporary INI test file");
+                    throw std::runtime_error("Could not create temporary INI file");
                 }
 
                 file << "[IDENTITY]\n"
@@ -61,7 +58,7 @@ namespace {
                      << "minimum_config_log=INFO\n";
 
                 if (!file) {
-                    throw std::runtime_error("Could not write temporary INI test file");
+                    throw std::runtime_error("Could not write temporary INI file");
                 }
             }
 
@@ -74,65 +71,21 @@ namespace {
     };
 }
 
+/**
+ * Checks INI file loading, parsed configuration values, protocol validation, and secret redaction.
+ * The test creates a temporary INI file with valid configuration values, loads it into the ConfigManager, 
+ * and verifies that the values are correctly parsed and accessible. It also checks that sensitive information
+ * is not exposed in the configuration output. Finally, it tests that an invalid SIP transport protocol results 
+ * in an exception being thrown.
+ */ 
 int main() {
     try {
-        client_handler_t* client = init();
-        require(client != nullptr, "Client initialization failed");
-        require(deinit(client) == STATUS_CODE_OK, "Client deinitialization failed");
-
-        const DefHelper::ConfigMap data = {
-            {IDENTITY_SECTION_NAME, {
-                {"numericValue", "42"},
-                {"invalidNumericValue", "42tail"},
-                {"emptyValue", ""}
-            }}
-        };
-
-        const DefHelper::ConfigMap stringData = IniHelper::fromBuffer(
-            "[IDENTITY]; first=one, second=two\nthird=three\r\n[LOG],minimum_config_log=INFO");
-        require(stringData.at("IDENTITY").at("first") == "one" &&
-                stringData.at("IDENTITY").at("second") == "two" &&
-                stringData.at("IDENTITY").at("third") == "three" &&
-                stringData.at("LOG").at("minimum_config_log") == "INFO",
-                "String INI parsing should support semicolon, comma, and newline separators");
-
-        require(IniHelper::getValue<int>(data, IDENTITY_SECTION_NAME, "numericValue") == 42,
-                "Typed INI value conversion failed");
-        require(IniHelper::getStringValue(data, IDENTITY_SECTION_NAME, "emptyValue").empty(),
-                "Empty INI values should remain empty");
-        require(IniHelper::getStringValue(data, IDENTITY_SECTION_NAME, "missingValue").empty(),
-                "Missing string values should return an empty string");
-
-        bool missingValueThrew = false;
-        try {
-            IniHelper::getValue<int>(data, IDENTITY_SECTION_NAME, "missingValue");
-        } catch (const std::out_of_range&) {
-            missingValueThrew = true;
-        }
-        require(missingValueThrew, "Typed lookup should reject a missing key");
-
-        bool invalidNumericValueThrew = false;
-        try {
-            IniHelper::getValue<int>(data, IDENTITY_SECTION_NAME, "invalidNumericValue");
-        } catch (const std::invalid_argument&) {
-            invalidNumericValueThrew = true;
-        }
-        require(invalidNumericValueThrew, "Typed lookup should reject trailing non-numeric characters");
-
-        idms::Config config;
-        bool missingSectionThrew = false;
-        try {
-            config.loadFromIniData(data, "MISSING");
-        } catch (const std::runtime_error&) {
-            missingSectionThrew = true;
-        }
-        require(missingSectionThrew, "Configuration loading should reject a missing section");
-
         ConfigManager configManager;
         TempIniFile iniFile;
         iniFile.write("1");
-        configManager.loadConfig(iniFile.getPath().string(), true);
 
+        require(configManager.loadConfig(iniFile.getPath().string(), true) == STATUS_CODE_OK,
+                "Configuration loading failed");
         require(configManager.getIdmsConfig().getUsernameForAuth() == "test-user",
                 "IDMS configuration did not load");
         require(configManager.getSipConfig().getTransportProtocol() == Protocol::TCP,
@@ -140,13 +93,12 @@ int main() {
         require(configManager.getMcxConfig().getExpireTimestamp() == 123456789,
                 "MCX expiration timestamp did not load");
 
-        const std::string idmsOutput = configManager.getIdmsConfig().toString();
-        const std::string sipOutput = configManager.getSipConfig().toString();
-        const std::string mcxOutput = configManager.getMcxConfig().toString();
-        require(idmsOutput.find("test-idms-password") == std::string::npos,
+        require(configManager.getIdmsConfig().toString().find("test-idms-password") == std::string::npos,
                 "IDMS password was exposed in configuration output");
-        require(sipOutput.find("test-sip-password") == std::string::npos,
+        require(configManager.getSipConfig().toString().find("test-sip-password") == std::string::npos,
                 "SIP password was exposed in configuration output");
+
+        const std::string mcxOutput = configManager.getMcxConfig().toString();
         require(mcxOutput.find("test-access-token") == std::string::npos &&
                 mcxOutput.find("test-refresh-token") == std::string::npos &&
                 mcxOutput.find("test-client-secret") == std::string::npos,

@@ -3,10 +3,7 @@
 
 #include <exception>
 
-status_code_t loadIniFile(
-    client_handler_t* client,
-    const char* iniConfig,
-    bool isFromPath) {
+status_code_t loadIniFile(client_handle_t* client, const char* iniConfig, bool isFromPath) {
     if (client == nullptr) {
         return STATUS_CODE_ERROR;
     }

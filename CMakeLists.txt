@@ -3,6 +3,8 @@ project(mcx_lib VERSION 1.0 LANGUAGES CXX)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(PJSIP REQUIRED IMPORTED_TARGET libpjproject)
 
 file(GLOB_RECURSE MCX_LIB_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
@@ -26,6 +28,7 @@ else()
     set(MCX_WARNING_OPTIONS -Wall -Wextra -Wpedantic)
 endif()
 target_compile_options(mcx_lib PRIVATE ${MCX_WARNING_OPTIONS})
+target_link_libraries(mcx_lib PRIVATE PkgConfig::PJSIP)
 
 set(MCX_LIB_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/mcx_lib")
 
@@ -74,6 +77,7 @@ if(BUILD_TESTING)
     target_compile_features(mcx_lib_test_support PUBLIC cxx_std_17)
     target_compile_definitions(mcx_lib_test_support PUBLIC MCX_LIB_STATIC)
     target_compile_options(mcx_lib_test_support PRIVATE ${MCX_WARNING_OPTIONS})
+    target_link_libraries(mcx_lib_test_support PRIVATE PkgConfig::PJSIP)
 
     file(GLOB_RECURSE MCX_LIB_TEST_SOURCES CONFIGURE_DEPENDS
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"

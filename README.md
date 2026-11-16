@@ -141,10 +141,20 @@ sources for static linking into the tests.
 ## External libs
 ### Building and Installing PJSIP
 
-These steps build and install PJSIP in WSL. The current top-level CMake
-configuration does not yet discover or link PJSIP, so installing it alone does
-not embed it in `mcx_lib`; PJSIP integration still needs to be added to CMake
-and to the SIP implementation.
+The CMake build discovers PJSIP through `pkg-config` using the package name
+`libpjproject` and links it to both the shared library and the test support
+library. Install PJSIP before configuring this project. Check that it is
+discoverable with:
+
+```bash
+pkg-config --modversion libpjproject
+pkg-config --cflags --libs libpjproject
+```
+
+If PJSIP is installed in a non-standard prefix, set `PKG_CONFIG_PATH` to the
+directory containing `libpjproject.pc` before running CMake. Consumers of the
+installed shared library must also have the PJSIP runtime libraries available
+to the system dynamic linker.
 
 Download the appropriate `pjproject` source archive from
 https://github.com/pjsip/pjproject/releases/ .

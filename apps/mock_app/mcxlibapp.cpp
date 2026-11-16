@@ -14,7 +14,7 @@ void printUsage() {
 }
 
 int main() {
-    client_handler_t* client = nullptr;
+    client_handle_t* client = nullptr;
     char command = '\0';
 
     std::cout << "MCX library client mock\n";
@@ -31,13 +31,40 @@ int main() {
 
         switch (command) {
             case 's':
+                if (client != nullptr) {
+                    std::cout << "Client already initialized\n";
+                    break;
+                }
+
                 client = init();
-                loadIniFile(client, INI_FILE_PATH, true);
-                std::cout << "Client running\n";
+                if (client == nullptr) {
+                    std::cerr << "Client initialization failed\n";
+                    break;
+                }
+
+                if (loadIniFile(client, INI_FILE_PATH, true) != STATUS_CODE_OK) {
+                    std::cerr << "Client configuration failed\n";
+                    deinit(client);
+                    client = nullptr;
+                    break;
+                }
+
+                if (startClient(client) != STATUS_CODE_OK) {
+                    std::cerr << "Client start failed\n";
+                    deinit(client);
+                    client = nullptr;
+                    break;
+                }
+
+                std::cout << "PJSIP endpoint initialized (no transport yet)\n";
                 break;
             case 'q':
                 if (client != nullptr) {
+                    if (stopClient(client) != STATUS_CODE_OK) {
+                        std::cerr << "Client stop failed\n";
+                    }
                     deinit(client);
+                    client = nullptr;
                 }
                 std::cout << "Application stopped\n";
                 break;
