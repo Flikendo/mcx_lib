@@ -16,14 +16,14 @@ extern "C" {
      * Initialize a client handle.
      * @return client_handle_t object, or NULL if creation fails.
      */
-    MCX_API OUT client_handle_t* CALLCLIENT init(IN void);
+    MCX_API OUT client_handle_t* CALLCLIENT initClientHandle(IN void);
 
     /**
      * Destroys the client handle.
      * @param client The client handle.
      * @return STATUS_CODE_OK on success, otherwise an error status.
      */
-    MCX_API OUT status_code_t CALLCLIENT deinit(IN client_handle_t* client);
+    MCX_API OUT status_code_t CALLCLIENT deinitClientHandle(IN client_handle_t* client);
 
     /**
      * Starts the client handle.

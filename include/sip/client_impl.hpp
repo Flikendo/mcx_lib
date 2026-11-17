@@ -42,16 +42,6 @@ namespace sip {
             pj_status_t stop();
 
         private:
-            /**
-             * The PJSIP endpoint used for managing SIP sessions and communication.
-             */
-            pjsip_endpoint* endpoint = nullptr;
-
-            /**
-             * The caching pool used for memory management within the PJSIP library.
-             * It is initialized during the start process and cleaned up during the stop process. 
-             */
-            pj_caching_pool cp{};
 
             /**
              * Indicates whether the PJSIP library has been initialized.

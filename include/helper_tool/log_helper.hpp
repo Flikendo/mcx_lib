@@ -65,7 +65,6 @@ class Logger {
          */
         std::string levelToString(LogLevel level);
 
-    private:
         /**
          * The file stream for the log file.
          */

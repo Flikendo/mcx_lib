@@ -28,7 +28,7 @@ typedef enum status_code {
  */
 typedef enum boolean_code {
     BOOLEAN_FALSE = 0,
-    BOOLEAN_TRUE = 1
+    BOOLEAN_TRUE  = 1
 } boolean_code_t;
 
 #endif
