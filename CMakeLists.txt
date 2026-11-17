@@ -82,11 +82,7 @@ if(BUILD_TESTING)
     target_compile_features(mcx_lib_test_support PUBLIC cxx_std_17)
     target_compile_definitions(mcx_lib_test_support PUBLIC MCX_LIB_STATIC)
     target_compile_options(mcx_lib_test_support PRIVATE ${MCX_WARNING_OPTIONS})
-<<<<<<< HEAD
-    target_link_libraries(mcx_lib_test_support PRIVATE PkgConfig::PJSIP)
-=======
     target_link_libraries(mcx_lib_test_support PUBLIC PkgConfig::PJPROJECT)
->>>>>>> 2abdbb544c3a10a2f29f5e1c52181d1183f3d524
 
     file(GLOB_RECURSE MCX_LIB_TEST_SOURCES CONFIGURE_DEPENDS
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"
