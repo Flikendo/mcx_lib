@@ -59,8 +59,7 @@ status_code_t startClient(IN client_handle_t* client) {
     PJ_ASSERT_RETURN(status == PJ_SUCCESS, STATUS_CODE_ERROR);
 
     if (status != PJ_SUCCESS) {
-        stop();
-        return STATUS_CODE_ERR_INTERNAL;
+        return STATUS_CODE_ERROR;
     }
 
     return STATUS_CODE_OK;
