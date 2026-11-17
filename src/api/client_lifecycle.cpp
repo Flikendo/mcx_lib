@@ -9,7 +9,7 @@
 /**
  * The PJSIP endpoint used for managing SIP sessions and communication.
  */
-static pjsip_endpoint* sipEndpoint;
+static pjsip_endpoint* globalSipEndpoint;
 
 client_handle_t* initClientHandle(void) {
     try {
@@ -51,9 +51,10 @@ status_code_t startClient(IN client_handle_t* client) {
     status = pjlib_util_init();
     PJ_ASSERT_RETURN(status == PJ_SUCCESS, STATUS_CODE_ERROR);
 
+    /* Must create a pool factory before we can allocate any memory. */
     pj_caching_pool_init(&client->mcxPool->cp, &pj_pool_factory_default_policy, 0);
 
-    status = pjsip_endpt_create(&client->mcxPool->cp.factory, "pjsip_endpoint_%p", &sipEndpoint);
+    status = pjsip_endpt_create(&client->mcxPool->cp.factory, pj_gethostname()->ptr, &globalSipEndpoint);
 
     PJ_ASSERT_RETURN(status == PJ_SUCCESS, STATUS_CODE_ERROR);
 
