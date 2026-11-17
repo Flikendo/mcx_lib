@@ -7,7 +7,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
     /**
      * Represents the client handle structure.
      */
