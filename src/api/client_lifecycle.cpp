@@ -51,9 +51,9 @@ status_code_t startClient(IN client_handle_t* client) {
     status = pjlib_util_init();
     PJ_ASSERT_RETURN(status == PJ_SUCCESS, STATUS_CODE_ERROR);
 
-    pj_caching_pool_init(&client->mcxPool->chPool, &pj_pool_factory_default_policy, 0);
+    pj_caching_pool_init(&client->mcxPool->cp, &pj_pool_factory_default_policy, 0);
 
-    status = pjsip_endpt_create(&client->mcxPool->chPool.factory, "pjsip_endpoint_%p", &sipEndpoint);
+    status = pjsip_endpt_create(&client->mcxPool->cp.factory, "pjsip_endpoint_%p", &sipEndpoint);
 
     PJ_ASSERT_RETURN(status == PJ_SUCCESS, STATUS_CODE_ERROR);
 

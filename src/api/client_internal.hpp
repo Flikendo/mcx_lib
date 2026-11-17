@@ -44,13 +44,13 @@ typedef struct mcx_pool {
      * The caching pool used for memory management within the PJSIP library.
      * It is initialized during the start process and cleaned up during the stop process. 
      */
-    pj_caching_pool chPool;
+    pj_caching_pool cp;
 
     /**
      * The memory pool used for allocating memory within the PJSIP library.
      * It is initialized during the start process and cleaned up during the stop process.
      */
-    pj_pool_t* pjPool;
+    pj_pool_t* pool;
 } mcx_pool_t;
 
 #endif
