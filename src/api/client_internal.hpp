@@ -8,26 +8,19 @@
 #include <memory>
 
 /**
- * Represents the client handle structure used for managing the lifecycle of a SIP client.
+ * Represents the client endpoint structure used for managing the lifecycle of a SIP client.
  * It encapsulates the necessary components for configuration management, SIP communication, and logging.
  */
-struct client_handle {
-    // /**
-    //  * The configuration manager instance responsible for loading and managing configuration settings.
-    //  */
-    // ConfigManager configManager;
-
-    // /**
-    //  * The SIP client implementation instance responsible for handling SIP communication.
-    //  */
-    // std::unique_ptr<sip::ClientImpl> sipClient;
-    
+struct client_endpoint {
+    /**
+     * The configuration manager instance responsible for loading and managing configuration settings.
+     */
+    ConfigManager* configManager;
 
     /**
-     * The caching pool used for memory management within the PJSIP library.
-     * It is initialized during the start process and cleaned up during the stop process.
+     * The SIP client implementation instance responsible for handling SIP communication.
      */
-    mcx_pool_t* mcxPool;
+    std::unique_ptr<sip::ClientImpl> sipClient;
 
     /**
      * Logger instance for logging configuration-related messages.
@@ -35,22 +28,4 @@ struct client_handle {
      */
     Logger* logger;
 };
-
-/**
- * Represents the memory pool structure used for managing memory allocation within the PJSIP library.
- */
-typedef struct mcx_pool {
-    /**
-     * The caching pool used for memory management within the PJSIP library.
-     * It is initialized during the start process and cleaned up during the stop process. 
-     */
-    pj_caching_pool cp;
-
-    /**
-     * The memory pool used for allocating memory within the PJSIP library.
-     * It is initialized during the start process and cleaned up during the stop process.
-     */
-    pj_pool_t* pool;
-} mcx_pool_t;
-
 #endif
