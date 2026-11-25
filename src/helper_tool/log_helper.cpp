@@ -23,12 +23,10 @@ LogLevel Logger::parseLogLevel(const std::string& name) {
     if (name == "ERROR") return ERROR;
     if (name == "CRITICAL") return CRITICAL;
 
-    throw std::invalid_argument(
-        "Invalid log level '" + name
-        + "'. Expected DEBUG, INFO, WARNING, ERROR, or CRITICAL.");
+    throw std::invalid_argument("Invalid log level '" + name + "'. Expected DEBUG, INFO, WARNING, ERROR, or CRITICAL.");
 }
 
-void Logger::log(LogLevel level, const std::string& message) {
+void Logger::log(LogLevel level, const std::string& clazz, const std::string& message) {
     if (level < getMinimumLogLevel()) {
         return;
     }
@@ -37,14 +35,15 @@ void Logger::log(LogLevel level, const std::string& message) {
     std::time_t now = std::time(nullptr);
     std::tm* timeinfo = std::localtime(&now);
     char timestamp[20];
-    std::strftime(timestamp, sizeof(timestamp),
-            "%Y-%m-%d %H:%M:%S", timeinfo);
+    std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", timeinfo);
 
     // Create log entry
     std::ostringstream logEntry;
-    logEntry << "[" << timestamp << "] "
-            << levelToString(level) << ": " << message
-            << std::endl;
+    if (level == LogLevel::DEBUG) {
+        logEntry << timestamp << " [" << levelToString(level) << "] " << clazz << " - " << message << std::endl;
+    } else {
+        logEntry << timestamp << " [" << levelToString(level) << "] " << message << std::endl;
+    }
 
     // Output to console
     std::cout << logEntry.str();

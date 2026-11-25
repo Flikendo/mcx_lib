@@ -43,7 +43,7 @@ class Logger {
          * Logs a message with the specified log level.
          * @param level The log level of the message.
          */
-        void log(LogLevel level, const std::string& message);
+        void log(LogLevel level, const std::string& clazz, const std::string& message);
 
     private:
         /**
