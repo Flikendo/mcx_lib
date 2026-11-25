@@ -69,21 +69,21 @@ namespace idms {
 
     void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
         setOutboundProxyAddress(IniHelper::getStringValue(iniData, sectionName, OUTBOUND_PROXY_KEY));
-        logger.log(LogLevel::DEBUG, "IDMS - Outbound Proxy Address: " + getOutboundProxyAddress());
+        logger.log(LogLevel::DEBUG, "config", "IDMS - Outbound Proxy Address: " + getOutboundProxyAddress());
         setUsernameForAuth(IniHelper::getStringValue(iniData, sectionName, IDMS_USERNAME_KEY));
-        logger.log(LogLevel::DEBUG, "IDMS - Username for Auth: " + getUsernameForAuth());
+        logger.log(LogLevel::DEBUG, "config", "IDMS - Username for Auth: " + getUsernameForAuth());
         setPasswordForAuth(IniHelper::getStringValue(iniData, sectionName, IDMS_PASSWORD_KEY));
-        logger.log(LogLevel::DEBUG, "IDMS - Password loaded");
+        logger.log(LogLevel::DEBUG, "config", "IDMS - Password loaded");
         setIdmsIssuer(IniHelper::getStringValue(iniData, sectionName, IDMS_ISSUER_KEY));
-        logger.log(LogLevel::DEBUG, "IDMS - Issuer: " + getIdmsIssuer());
+        logger.log(LogLevel::DEBUG, "config", "IDMS - Issuer: " + getIdmsIssuer());
         setIdmsAuthorizationEndpoint(IniHelper::getStringValue(iniData, sectionName, IDMS_AUTHORIZATION_ENDPOINT_KEY));
-        logger.log(LogLevel::DEBUG, "IDMS - Authorization Endpoint: " + getIdmsAuthorizationEndpoint());
+        logger.log(LogLevel::DEBUG, "config", "IDMS - Authorization Endpoint: " + getIdmsAuthorizationEndpoint());
         setIdmsTokenEndpoint(IniHelper::getStringValue(iniData, sectionName, IDMS_TOKEN_ENDPOINT_KEY));
-        logger.log(LogLevel::DEBUG, "IDMS - Token Endpoint: " + getIdmsTokenEndpoint());
+        logger.log(LogLevel::DEBUG, "config", "IDMS - Token Endpoint: " + getIdmsTokenEndpoint());
         setIdmsRefreshTokenEndpoint(IniHelper::getStringValue(iniData, sectionName, IDMS_REFRESH_TOKEN_ENDPOINT_KEY));
-        logger.log(LogLevel::DEBUG, "IDMS - Refresh Token Endpoint: " + getIdmsRefreshTokenEndpoint());
+        logger.log(LogLevel::DEBUG, "config", "IDMS - Refresh Token Endpoint: " + getIdmsRefreshTokenEndpoint());
         setIdmsRedirectUri(IniHelper::getStringValue(iniData, sectionName, IDMS_REDIRECT_URI_KEY));
-        logger.log(LogLevel::DEBUG, "IDMS - Redirect URI: " + getIdmsRedirectUri());
+        logger.log(LogLevel::DEBUG, "config", "IDMS - Redirect URI: " + getIdmsRedirectUri());
     }
 
     std::string Config::toString() const {

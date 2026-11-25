@@ -28,7 +28,7 @@ status_code_t ConfigManager::loadConfig(const std::string& config, bool isFromPa
 
     if (iniData.empty()) {
         const std::string message = "Failed to read INI file or it was empty: " + config;
-        logger.log(LogLevel::ERROR, message);
+        logger.log(LogLevel::ERROR, "config_manager", message);
         
         return STATUS_CODE_ERR_CONFIG;
     }

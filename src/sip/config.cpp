@@ -39,25 +39,25 @@ namespace sip {
 
     void Config::populateFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
         setImpiUsername(IniHelper::getStringValue(iniData, sectionName, SIP_IMPI_USERNAME_KEY));
-        logger.log(LogLevel::DEBUG, "SIP - IMPI Username: " + getImpiUsername());
+        logger.log(LogLevel::DEBUG, "config", "SIP - IMPI Username: " + getImpiUsername());
         setImpuUsername(IniHelper::getStringValue(iniData, sectionName, SIP_IMPU_USERNAME_KEY));
-        logger.log(LogLevel::DEBUG, "SIP - IMPU Username: " + getImpuUsername());
+        logger.log(LogLevel::DEBUG, "config", "SIP - IMPU Username: " + getImpuUsername());
         setPassword(IniHelper::getStringValue(iniData, sectionName, SIP_PASSWORD_KEY));
-        logger.log(LogLevel::DEBUG, "SIP - Password loaded");
+        logger.log(LogLevel::DEBUG, "config", "SIP - Password loaded");
 
         const auto protocolStr = IniHelper::getStringValue(iniData, sectionName, SIP_TRANSPORT_PROTOCOL_KEY);
         if (protocolStr == "0") {
             setTransportProtocol(Protocol::UDP);
-            logger.log(LogLevel::DEBUG, "SIP - Transport Protocol: UDP");
+            logger.log(LogLevel::DEBUG, "config", "SIP - Transport Protocol: UDP");
         } else if (protocolStr == "1") {
             setTransportProtocol(Protocol::TCP);
-            logger.log(LogLevel::DEBUG, "SIP - Transport Protocol: TCP");
+            logger.log(LogLevel::DEBUG, "config", "SIP - Transport Protocol: TCP");
         } else if (protocolStr == "2") {
             setTransportProtocol(Protocol::TLS);
-            logger.log(LogLevel::DEBUG, "SIP - Transport Protocol: TLS");
+            logger.log(LogLevel::DEBUG, "config", "SIP - Transport Protocol: TLS");
         } else {
             const std::string message = "Invalid SIP transport protocol: " + protocolStr;
-            logger.log(LogLevel::ERROR, message);
+            logger.log(LogLevel::ERROR, "config", message);
             throw std::invalid_argument(message);
         }
     }

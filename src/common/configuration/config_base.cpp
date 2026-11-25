@@ -8,13 +8,13 @@
 void ConfigBase::loadFromIniData(const DefHelper::ConfigMap& iniData, const std::string& sectionName) {
     if (iniData.empty()) {
         const std::string message = "Cannot populate configuration from empty INI data";
-        logger.log(LogLevel::ERROR, message);
+        logger.log(LogLevel::ERROR, "config_base", message);
         throw std::runtime_error(message);
     }
 
     if (iniData.find(sectionName) == iniData.end()) {
         const std::string message = "INI section not found: " + sectionName;
-        logger.log(LogLevel::ERROR, message);
+        logger.log(LogLevel::ERROR, "config_base", message);
         throw std::runtime_error(message);
     }
     
