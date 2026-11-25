@@ -30,14 +30,14 @@ extern "C" {
      * @param client The client endpoint.
      * @return STATUS_CODE_OK on success, otherwise an error status.
      */
-    MCX_API OUT status_code_t CALLCLIENT start_client(IN client_endpoint_t* client);
+    MCX_API OUT status_code_t CALLCLIENT start_client_endpoint(IN client_endpoint_t* client);
 
     /**
      * Stops the client endpoint.
      * @param client The client endpoint.
      * @return STATUS_CODE_OK on success, otherwise an error status.
      */
-    MCX_API OUT status_code_t CALLCLIENT stop_client(IN client_endpoint_t* client);
+    MCX_API OUT status_code_t CALLCLIENT stop_client_endpoint(IN client_endpoint_t* client);
 #ifdef __cplusplus
 }
 #endif

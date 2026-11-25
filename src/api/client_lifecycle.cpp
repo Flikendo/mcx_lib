@@ -11,25 +11,25 @@
  */
 static pjsip_endpoint* globalSipEndpoint;
 
-client_handle_t* initClientHandle(void) {
+client_endpoint_t* create_client_endpoint(void) {
     try {
-        client_handle_t* client = new client_handle_t();
+        client_endpoint_t* client = new client_endpoint_t();
+        client->configManager = new ConfigManager();
         client->logger = new Logger();
-        client->mcxPool = new mcx_pool_t();
-        pool = client->mcxPool;
+        client->sipClient = std::make_unique<sip::ClientImpl>();
         return client;
     } catch (...) {
         return nullptr;
     }
 }
 
-status_code_t deinitClientHandle(client_handle_t* client) {
+status_code_t destroy_client_endpoint(client_endpoint_t* client) {
     if (client == nullptr) {
         return STATUS_CODE_ERR_NULL;
     }
 
     try {
-        client->logger->log(LogLevel::DEBUG, "Deinit client");
+        client->logger->log(LogLevel::DEBUG, "Deinit client endpoint");
         delete client;
         return STATUS_CODE_OK;
     } catch (...) {
@@ -38,33 +38,10 @@ status_code_t deinitClientHandle(client_handle_t* client) {
     }
 }
 
-status_code_t startClient(IN client_handle_t* client) {
-    /* Must init PJLIB first: */
-    pj_status_t status = pj_init();    
-    PJ_ASSERT_RETURN(status == PJ_SUCCESS, STATUS_CODE_ERROR);
+status_code_t start_client_endpoint(IN client_endpoint_t* client) {
 
-    if (status != PJ_SUCCESS) {
-        return STATUS_CODE_ERROR;
-    }
-
-    /* Then init PJLIB-UTIL: */
-    status = pjlib_util_init();
-    PJ_ASSERT_RETURN(status == PJ_SUCCESS, STATUS_CODE_ERROR);
-
-    /* Must create a pool factory before we can allocate any memory. */
-    pj_caching_pool_init(&client->mcxPool->cp, &pj_pool_factory_default_policy, 0);
-
-    status = pjsip_endpt_create(&client->mcxPool->cp.factory, pj_gethostname()->ptr, &globalSipEndpoint);
-
-    PJ_ASSERT_RETURN(status == PJ_SUCCESS, STATUS_CODE_ERROR);
-
-    if (status != PJ_SUCCESS) {
-        return STATUS_CODE_ERROR;
-    }
-
-    return STATUS_CODE_OK;
 }
 
-status_code_t stopClient(IN client_handle_t* client) {
+status_code_t stop_client_endpoint(IN client_endpoint_t* client) {
   
 }
