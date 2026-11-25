@@ -20,17 +20,18 @@ typedef struct mcx_pool {
  * @brief Defines the mcx_pool structure for managing PJSIP memory pools.   
  */
 class Pool {
-    /**
-     * Creates PJSIP pool
-     * @param client The client endpoint.
-     * @return PJ_SUCCESS on success, otherwise an error status.
-     */
-    pj_status_t create_mcx_pool(mcx_pool_t** pool);
+    public:
+        /**
+         * Creates PJSIP pool
+         * @param client The client endpoint.
+         * @return PJ_SUCCESS on success, otherwise an error status.
+         */
+        static pj_status_t create_mcx_pool(mcx_pool_t** pool);
 
-    /**
-     * Destroys PJSIP pool
-     * @param client The client endpoint.
-     * @return PJ_SUCCESS on success, otherwise an error status.
-     */
-    pj_status_t destroy_mcx_pool();
+        /**
+         * Destroys PJSIP pool
+         * @param client The client endpoint.
+         * @return PJ_SUCCESS on success, otherwise an error status.
+         */
+        static pj_status_t destroy_mcx_pool();
 };
